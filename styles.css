@@ -1091,6 +1091,207 @@ section {
   50% { opacity: 1; }
 }
 
+/* ---------- One More Thing (envelope message) ---------- */
+.more-bg {
+  background: linear-gradient(160deg, #1a1430 0%, #2a1f4a 50%, #1f1838 100%);
+  padding: 6rem 1.5rem 7rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.more-bg::before {
+  content: "";
+  position: absolute;
+  top: -40px; left: -40px;
+  width: 280px; height: 280px;
+  background: radial-gradient(circle, rgba(183,154,214,0.18), transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.more-content {
+  max-width: 720px;
+  margin: 0 auto;
+  text-align: center;
+  position: relative;
+  z-index: 1;
+}
+
+.more-bg .section-label { color: var(--pink-glow); }
+.more-bg .section-title { color: var(--white); }
+.more-bg .section-intro { color: rgba(255,255,255,0.85); }
+
+/* Envelope */
+.more-envelope {
+  position: relative;
+  width: 220px;
+  height: 150px;
+  margin: 2.5rem auto 0;
+  cursor: pointer;
+  perspective: 800px;
+  transition: transform 0.4s ease;
+}
+
+.more-envelope:hover {
+  transform: translateY(-6px) scale(1.03);
+}
+
+.envelope-flap {
+  position: absolute;
+  top: 0; left: 0;
+  width: 0; height: 0;
+  border-left: 110px solid transparent;
+  border-right: 110px solid transparent;
+  border-top: 75px solid #c97b9a;
+  transform-origin: top;
+  transition: transform 0.6s ease;
+  z-index: 3;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+}
+
+.more-envelope.opened .envelope-flap {
+  transform: rotateX(180deg);
+  z-index: 1;
+}
+
+.envelope-body {
+  position: absolute;
+  bottom: 0; left: 0;
+  width: 220px;
+  height: 110px;
+  background: linear-gradient(145deg, #e8a8c4, #d98ab0);
+  border-radius: 4px;
+  z-index: 2;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.35);
+  overflow: hidden;
+}
+
+.envelope-body::after {
+  content: "";
+  position: absolute;
+  top: 0; left: 0;
+  width: 0; height: 0;
+  border-left: 110px solid transparent;
+  border-right: 110px solid transparent;
+  border-top: 65px solid rgba(0,0,0,0.08);
+}
+
+.envelope-letter {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%) scale(0.95);
+  width: 160px;
+  height: 90px;
+  background: #fffaf5;
+  border-radius: 3px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  transition: transform 0.6s ease;
+  z-index: 1;
+}
+
+.more-envelope.opened .envelope-letter {
+  transform: translate(-50%, -180%) scale(1.05);
+  transition-delay: 0.2s;
+}
+
+.envelope-heart {
+  font-size: 1.8rem;
+  animation: heartbeat 1.6s ease-in-out infinite;
+}
+
+.envelope-shadow {
+  position: absolute;
+  bottom: -14px; left: 50%;
+  transform: translateX(-50%);
+  width: 180px; height: 18px;
+  background: radial-gradient(ellipse, rgba(0,0,0,0.35), transparent 70%);
+  border-radius: 50%;
+  z-index: 0;
+}
+
+.more-hint {
+  font-family: var(--font-display);
+  font-style: italic;
+  color: var(--pink-glow);
+  margin-top: 1.5rem;
+  font-size: 1rem;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+/* The revealed message */
+.more-message {
+  display: none;
+  max-width: 620px;
+  margin: 2.5rem auto 0;
+  padding: 2.5rem 2.2rem;
+  background: rgba(255,250,245,0.97);
+  border-radius: 14px;
+  text-align: left;
+  color: #3a2c2c;
+  line-height: 1.85;
+  font-size: 1.02rem;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.3);
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+  position: relative;
+}
+
+.more-message::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 5px;
+  background: linear-gradient(90deg, #ff6b9d, #f0d9a0, #b79ad6);
+  border-radius: 14px 14px 0 0;
+}
+
+.more-message.show {
+  display: block;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.more-message p {
+  margin: 0 0 1.1rem;
+}
+
+.more-message p:first-child {
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  color: #c4567a;
+  margin-bottom: 1.3rem;
+}
+
+.more-sign {
+  font-family: 'Great Vibes', cursive !important;
+  font-size: 1.7rem !important;
+  color: #c4567a !important;
+  text-align: right;
+  margin-top: 1.6rem !important;
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+  .more-bg { padding: 4.5rem 1.2rem 5.5rem; }
+  .more-envelope { width: 180px; height: 125px; }
+  .envelope-flap { border-left: 90px solid transparent; border-right: 90px solid transparent; border-top: 62px solid #c97b9a; }
+  .envelope-body { width: 180px; height: 90px; }
+  .envelope-body::after { border-left: 90px solid transparent; border-right: 90px solid transparent; border-top: 53px solid rgba(0,0,0,0.08); }
+  .envelope-letter { width: 130px; height: 74px; }
+  .more-message { padding: 1.8rem 1.4rem; font-size: 0.95rem; }
+  .more-sign { font-size: 1.4rem !important; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .more-envelope, .envelope-flap, .envelope-letter, .more-message { transition: none; }
+  .envelope-heart { animation: none; }
+  .more-hint { animation: none; opacity: 0.85; }
+}
+
 /* ---------- Confetti hearts (surprise reveal) ---------- */
 .confetti-heart {
   position: fixed;

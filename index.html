@@ -28,6 +28,7 @@
       <li><a href="#memories" onclick="closeNav()">Memories</a></li>
       <li><a href="#time" onclick="closeNav()">Our Time</a></li>
       <li><a href="#letter" onclick="closeNav()">Love Letter</a></li>
+      <li><a href="#more" onclick="closeNav()">One More Thing</a></li>
       <li><a href="#surprise" onclick="closeNav()">Surprise</a></li>
     </ul>
   </nav>
@@ -267,7 +268,7 @@
     <div class="surprise-content">
       <div class="text-center reveal">
         <span class="section-label">Surprise</span>
-        <h2 class="section-title">One More Thing…</h2>
+        <h2 class="section-title">A Little Surprise…</h2>
         <div class="section-divider"></div>
         <p class="section-intro">I saved the best for last. Go ahead — open it.</p>
       </div>
@@ -287,6 +288,38 @@
         <p>Here's my little secret: this whole website was built with one thought in mind — you. Every line of code, every animation, every word. It's not much, but it's honest, and it's yours.</p>
         <p>If this made you smile even a little, then it did exactly what I hoped it would. 💕</p>
         <p style="margin-top:1.5rem; font-family:'Great Vibes', cursive; font-size:1.8rem; color:#f0d9a0;">— Thank you for being you.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ ONE MORE THING (new tap-to-reveal message) ============ -->
+  <section id="more" class="more-bg">
+    <div class="more-content">
+      <div class="text-center reveal">
+        <span class="section-label">One More Thing</span>
+        <h2 class="section-title">Before You Go…</h2>
+        <div class="section-divider"></div>
+        <p class="section-intro">One last tap. This one's from the heart.</p>
+      </div>
+
+      <div class="more-envelope reveal delay-1" id="moreEnvelope" onclick="openMore()" role="button" tabindex="0" aria-label="Open the letter">
+        <div class="envelope-flap"></div>
+        <div class="envelope-body">
+          <div class="envelope-letter">
+            <span class="envelope-heart">❤️</span>
+          </div>
+        </div>
+        <div class="envelope-shadow"></div>
+      </div>
+
+      <p class="more-hint" id="moreHint">✦ Tap to open ✦</p>
+
+      <div class="more-message" id="moreMessage">
+        <p>Hey Divine,</p>
+        <p>Probably when you're viewing this link you're probably still in Ilesa or you've left to your home town, but I want you to know that I will really miss you and the times we had together, the unforgettable memories that keep popping in my head.</p>
+        <p>But don't get me wrong — like you said I should give up on you as to become your boyfriend, which I have not because you said so, but because it is already becoming clear to me that I don't deserve you. But I really want to be a really good friend of yours. That's my point.</p>
+        <p>So enjoy your holiday, and I hope we could chat real good afterwards. The next time I'll see you is in 200lvl. Thanks for everything ♥️</p>
+        <p class="more-sign">— Always, Dayo ♥️</p>
       </div>
     </div>
   </section>
@@ -504,6 +537,39 @@
 
     document.getElementById('surpriseBox').addEventListener('keydown', (e) => {
       if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openSurprise(); }
+    });
+
+    /* ---------- One More Thing (envelope message) ---------- */
+    let moreOpened = false;
+    function openMore() {
+      if (moreOpened) return;
+      moreOpened = true;
+      const env = document.getElementById('moreEnvelope');
+      const msg = document.getElementById('moreMessage');
+      const hint = document.getElementById('moreHint');
+      env.classList.add('opened');
+      hint.style.display = 'none';
+      setTimeout(() => msg.classList.add('show'), 700);
+
+      // gentle floating hearts
+      for (let i = 0; i < 18; i++) {
+        setTimeout(() => {
+          const c = document.createElement('div');
+          c.className = 'confetti-heart';
+          c.textContent = heartChars[Math.floor(Math.random() * heartChars.length)];
+          c.style.left = Math.random() * 100 + 'vw';
+          c.style.top = '-20px';
+          c.style.color = ['#ffb3c6', '#f0d9a0', '#b79ad6', '#ff6b9d'][Math.floor(Math.random() * 4)];
+          c.style.fontSize = (Math.random() * 1 + 1) + 'rem';
+          c.style.animationDuration = (Math.random() * 1.5 + 2.5) + 's';
+          document.body.appendChild(c);
+          setTimeout(() => c.remove(), 4500);
+        }, i * 120);
+      }
+    }
+
+    document.getElementById('moreEnvelope').addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openMore(); }
     });
   </script>
 </body>
