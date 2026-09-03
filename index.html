@@ -58,7 +58,34 @@
 
       <div class="about-grid">
         <div class="about-photo-wrap reveal delay-1">
-          <img src="images/divine-main.jpg" alt="Divine" class="about-photo" />
+          <div class="carousel" id="photoCarousel" role="region" aria-label="Photos of Divine" aria-roledescription="carousel">
+            <div class="carousel-track" id="carouselTrack">
+              <div class="carousel-slide active" aria-hidden="false">
+                <img src="images/divine-1.jpg" alt="Divine smiling among flowers" class="about-photo" loading="eager" />
+              </div>
+              <div class="carousel-slide" aria-hidden="true">
+                <img src="images/divine-2.jpg" alt="Divine" class="about-photo" loading="lazy" />
+              </div>
+              <div class="carousel-slide" aria-hidden="true">
+                <img src="images/divine-3.jpg" alt="Divine" class="about-photo" loading="lazy" />
+              </div>
+            </div>
+
+            <!-- Navigation arrows -->
+            <button class="carousel-arrow carousel-arrow-prev" id="carouselPrev" aria-label="Previous photo" type="button">
+              <span aria-hidden="true">&lsaquo;</span>
+            </button>
+            <button class="carousel-arrow carousel-arrow-next" id="carouselNext" aria-label="Next photo" type="button">
+              <span aria-hidden="true">&rsaquo;</span>
+            </button>
+
+            <!-- Navigation dots -->
+            <div class="carousel-dots" id="carouselDots" role="tablist" aria-label="Choose photo">
+              <button class="carousel-dot active" role="tab" aria-label="Photo 1" aria-selected="true" type="button"></button>
+              <button class="carousel-dot" role="tab" aria-label="Photo 2" aria-selected="false" type="button"></button>
+              <button class="carousel-dot" role="tab" aria-label="Photo 3" aria-selected="false" type="button"></button>
+            </div>
+          </div>
         </div>
 
         <div class="about-text reveal delay-2">
@@ -345,6 +372,74 @@
     }, { threshold: 0.15 });
 
     revealEls.forEach(el => observer.observe(el));
+
+    /* ---------- Photo Carousel (About You) ---------- */
+    (function () {
+      const carousel = document.getElementById('photoCarousel');
+      if (!carousel) return;
+      const slides = carousel.querySelectorAll('.carousel-slide');
+      const dots = carousel.querySelectorAll('.carousel-dot');
+      const prevBtn = document.getElementById('carouselPrev');
+      const nextBtn = document.getElementById('carouselNext');
+      const total = slides.length;
+      let current = 0;
+      let timer = null;
+      const INTERVAL = 5000; // 5 seconds per slide
+
+      const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      function show(index) {
+        current = (index + total) % total;
+        slides.forEach((s, i) => {
+          const active = i === current;
+          s.classList.toggle('active', active);
+          s.setAttribute('aria-hidden', active ? 'false' : 'true');
+        });
+        dots.forEach((d, i) => {
+          const active = i === current;
+          d.classList.toggle('active', active);
+          d.setAttribute('aria-selected', active ? 'true' : 'false');
+        });
+      }
+
+      function next() { show(current + 1); }
+      function prev() { show(current - 1); }
+
+      function startAuto() {
+        if (prefersReducedMotion) return; // don't auto-rotate if user prefers reduced motion
+        stopAuto();
+        timer = setInterval(next, INTERVAL);
+      }
+      function stopAuto() { if (timer) { clearInterval(timer); timer = null; } }
+
+      nextBtn.addEventListener('click', () => { next(); startAuto(); });
+      prevBtn.addEventListener('click', () => { prev(); startAuto(); });
+      dots.forEach((d, i) => d.addEventListener('click', () => { show(i); startAuto(); }));
+
+      // Pause on hover/focus, resume on leave
+      carousel.addEventListener('mouseenter', stopAuto);
+      carousel.addEventListener('mouseleave', startAuto);
+      carousel.addEventListener('focusin', stopAuto);
+      carousel.addEventListener('focusout', startAuto);
+
+      // Keyboard support: left/right arrows
+      carousel.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowLeft') { e.preventDefault(); prev(); startAuto(); }
+        else if (e.key === 'ArrowRight') { e.preventDefault(); next(); startAuto(); }
+      });
+
+      // Touch swipe support
+      let touchStartX = 0;
+      carousel.addEventListener('touchstart', (e) => { touchStartX = e.changedTouches[0].screenX; }, { passive: true });
+      carousel.addEventListener('touchend', (e) => {
+        const dx = e.changedTouches[0].screenX - touchStartX;
+        if (Math.abs(dx) > 40) { dx < 0 ? next() : prev(); startAuto(); }
+      }, { passive: true });
+
+      // Start
+      show(0);
+      startAuto();
+    })();
 
     /* ---------- Our Time Together — live counter ---------- */
     // The moment everything started: July 7th, 2026, just after midnight (00:00:01)
