@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#2a1530" />
+  <title>Our Little World ❤️ — For Divine</title>
+  <meta name="description" content="A little place on the internet made especially for Divine." />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>❤️</text></svg>" />
+  <link rel="stylesheet" href="styles.css" />
+<script src="https://sites.super.myninja.ai/_assets/ninja-daytona-script.js"></script>
+</head>
+<body>
+
+  <!-- Floating hearts background -->
+  <div class="floating-hearts" id="floatingHearts" aria-hidden="true"></div>
+
+  <!-- Navigation -->
+  <nav class="nav" id="nav">
+    <div class="nav-logo" onclick="scrollToSection('home')">Our Little World <span>❤️</span></div>
+    <button class="nav-toggle" id="navToggle" aria-label="Menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#home" onclick="closeNav()">Home</a></li>
+      <li><a href="#about" onclick="closeNav()">About You</a></li>
+      <li><a href="#reasons" onclick="closeNav()">Reasons</a></li>
+      <li><a href="#memories" onclick="closeNav()">Memories</a></li>
+      <li><a href="#time" onclick="closeNav()">Our Time</a></li>
+      <li><a href="#letter" onclick="closeNav()">Love Letter</a></li>
+      <li><a href="#surprise" onclick="closeNav()">Surprise</a></li>
+    </ul>
+  </nav>
+
+  <!-- ============ HERO / HOME ============ -->
+  <section id="home" class="hero-bg">
+    <div class="hero-content">
+      <p class="hero-greeting">A little something just for you…</p>
+      <h1 class="hero-title">Hey Divine <span class="hero-heart-icon">❤️</span></h1>
+      <p class="hero-subtitle">I made this little place on the internet especially for you.</p>
+      <a href="#about" class="hero-btn">
+        Click to Begin Our Little Story
+        <span class="heart-beat">💕</span>
+      </a>
+    </div>
+    <div class="hero-scroll-hint">scroll ♡</div>
+  </section>
+
+  <!-- ============ ABOUT YOU ============ -->
+  <section id="about" class="about-bg">
+    <div class="section-inner">
+      <div class="text-center reveal">
+        <span class="section-label">About You</span>
+        <h2 class="section-title">The One Who Changed Everything</h2>
+        <div class="section-divider"></div>
+        <p class="section-intro">Every story has someone who makes it worth telling. In mine, that someone is you.</p>
+      </div>
+
+      <div class="about-grid">
+        <div class="about-photo-wrap reveal delay-1">
+          <img src="images/divine-main.jpg" alt="Divine" class="about-photo" />
+        </div>
+
+        <div class="about-text reveal delay-2">
+          <h3>Divine</h3>
+          <p>There's something quietly magical about the way you move through the world. The way you light up a room without ever trying, the way your laugh makes ordinary moments feel like memories worth keeping forever.</p>
+          <p>This little corner of the internet exists for one simple reason — to remind you, in case you ever forget, just how seen, how cherished, and how adored you truly are.</p>
+          <div class="about-traits">
+            <span class="trait">✦ Your smile</span>
+            <span class="trait">✦ Your kindness</span>
+            <span class="trait">✦ Your laugh</span>
+            <span class="trait">✦ Your mind</span>
+            <span class="trait">✦ Your heart</span>
+            <span class="trait">✦ Your everything</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ REASONS ============ -->
+  <section id="reasons" class="reasons-bg">
+    <div class="section-inner">
+      <div class="text-center reveal">
+        <span class="section-label">Reasons</span>
+        <h2 class="section-title">Reasons I Adore You</h2>
+        <div class="section-divider"></div>
+        <p class="section-intro">If I tried to list them all, I'd never finish. But here are a few of my favorites.</p>
+      </div>
+
+      <div class="reasons-grid">
+        <div class="reason-card reveal">
+          <span class="reason-num">01</span>
+          <span class="reason-icon">😊</span>
+          <h4>Your Smile</h4>
+          <p>It's the kind of smile that makes the whole day feel softer — like everything is going to be okay.</p>
+        </div>
+        <div class="reason-card reveal delay-1">
+          <span class="reason-num">02</span>
+          <span class="reason-icon">💫</span>
+          <h4>Your Heart</h4>
+          <p>The way you care for people, quietly and completely, is one of the most beautiful things I've ever witnessed.</p>
+        </div>
+        <div class="reason-card reveal delay-2">
+          <span class="reason-num">03</span>
+          <span class="reason-icon">🧠</span>
+          <h4>Your Mind</h4>
+          <p>The way you see the world, your thoughts, your curiosity — I could listen to you talk for hours.</p>
+        </div>
+        <div class="reason-card reveal">
+          <span class="reason-num">04</span>
+          <span class="reason-icon">😂</span>
+          <h4>Your Laugh</h4>
+          <p>It's my favorite sound. The kind that makes me want to say anything, just to hear it again.</p>
+        </div>
+        <div class="reason-card reveal delay-1">
+          <span class="reason-num">05</span>
+          <span class="reason-icon">🌙</span>
+          <h4>Your Presence</h4>
+          <p>Just being near you feels like coming home to a place I didn't know I was searching for.</p>
+        </div>
+        <div class="reason-card reveal delay-2">
+          <span class="reason-num">06</span>
+          <span class="reason-icon">❤️</span>
+          <h4>Simply You</h4>
+          <p>For every reason and for no reason at all — I adore you exactly as you are, completely.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ MEMORIES ============ -->
+  <section id="memories" class="memories-bg">
+    <div class="section-inner">
+      <div class="text-center reveal">
+        <span class="section-label">Memories</span>
+        <h2 class="section-title">Moments I Can't Forget</h2>
+        <div class="section-divider"></div>
+        <p class="section-intro">Some moments don't need a photo. They live in my heart, perfectly clear.</p>
+      </div>
+
+      <div class="memories-text-grid">
+        <div class="memory-text-card reveal">
+          <span class="memory-text-num">01</span>
+          <div class="memory-text-icon">🤝</div>
+          <h4>The First Time We Held Hands</h4>
+          <p>The day you told me I was the first guy to ever hold your hand while we talked. I don't think you realized how much that simple sentence meant to me. A first — something small to the world, but everything to me. I held on a little tighter after that.</p>
+        </div>
+
+        <div class="memory-text-card reveal delay-1">
+          <span class="memory-text-num">02</span>
+          <div class="memory-text-icon">💬</div>
+          <h4>"99.9%"</h4>
+          <p>The day I asked you how much you trusted me, and you said <span class="highlight">99.9%</span>. Not a hundred — you laughed when you said it, like you were keeping that tiny bit for yourself just to tease me. But that number? I replayed it in my head for days. It's one of those moments I know I'll never forget.</p>
+        </div>
+      </div>
+
+      <p class="memory-add-hint reveal">♡ More moments I can't forget, coming soon ♡</p>
+    </div>
+  </section>
+
+  <!-- ============ OUR TIME TOGETHER ============ -->
+  <section id="time" class="time-bg">
+    <div class="section-inner">
+      <div class="text-center reveal">
+        <span class="section-label">Our Time Together</span>
+        <h2 class="section-title">The Day Everything Started</h2>
+        <div class="section-divider"></div>
+        <p class="section-intro">Every second since that night has been quietly counting. Here's how long it's been.</p>
+      </div>
+
+      <div class="time-counter reveal delay-1" id="timeCounter" aria-live="polite">
+        <div class="time-unit">
+          <span class="time-num" id="t-years">0</span>
+          <span class="time-label">Years</span>
+        </div>
+        <div class="time-unit">
+          <span class="time-num" id="t-days">0</span>
+          <span class="time-label">Days</span>
+        </div>
+        <div class="time-unit">
+          <span class="time-num" id="t-hours">0</span>
+          <span class="time-label">Hours</span>
+        </div>
+        <div class="time-unit">
+          <span class="time-num" id="t-mins">0</span>
+          <span class="time-label">Minutes</span>
+        </div>
+        <div class="time-unit">
+          <span class="time-num" id="t-secs">0</span>
+          <span class="time-label">Seconds</span>
+        </div>
+      </div>
+
+      <p class="time-since-label reveal delay-2">Since July 7th, just after midnight ♡</p>
+
+      <div class="time-heart-divider reveal delay-2">❤ ❤ ❤</div>
+
+      <div class="time-story reveal delay-3">
+        <p>There was a night I waited for the clock to strike <span class="accent">midnight</span> on <span class="accent">July 7th</span> — your birthday.</p>
+        <p>I wanted so badly to be the <span class="accent">first</span> person to wish you a happy birthday. To be the one whose message reached you the very moment your special day began. So I stayed up, watching the minutes tick closer, my heart racing.</p>
+        <p>Fate had other plans — someone beat me to it, and I ended up being the <span class="accent">second</span>. But honestly? I wouldn't trade that night for anything. Because the truth is, I wasn't just trying to be first. I was trying to show you, in the quietest way I could, that you're the person I'd lose sleep for.</p>
+        <p>And I'd do it all over again. <span class="script-name">Happy birthday, Divine.</span> ♡</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ LOVE LETTER ============ -->
+  <section id="letter" class="letter-bg">
+    <div class="section-inner">
+      <div class="text-center reveal">
+        <span class="section-label">Love Letter</span>
+        <h2 class="section-title">A Letter, Just For You</h2>
+        <div class="section-divider"></div>
+        <p class="section-intro">Some things are easier written than said. So here, in my own quiet way…</p>
+      </div>
+
+      <div class="letter-paper reveal delay-1">
+        <div class="letter-header">
+          <div class="script">My dearest Divine,</div>
+          <div class="underline"></div>
+        </div>
+        <div class="letter-body">
+          <p>If you're reading this, then somewhere along the way, you found your way into my heart — and decided to stay there. I don't think you'll ever fully know what that means to me.</p>
+          <p>You are the thought I keep coming back to, the calm in my noisy days, and the warmth I didn't know I was missing. You make ordinary moments feel like something worth remembering.</p>
+          <p>I don't need grand reasons or perfect words. I just need you — exactly as you are. Thank you for being someone the world feels softer with.</p>
+          <p>This little place on the internet is yours. Every word, every color, every detail. Because you deserve to be celebrated, even in the quietest of ways.</p>
+        </div>
+        <div class="letter-sign">
+          <div class="small">Always and softly,</div>
+          <div class="name">Yours ♡</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SURPRISE ============ -->
+  <section id="surprise" class="surprise-bg">
+    <div class="surprise-content">
+      <div class="text-center reveal">
+        <span class="section-label">Surprise</span>
+        <h2 class="section-title">One More Thing…</h2>
+        <div class="section-divider"></div>
+        <p class="section-intro">I saved the best for last. Go ahead — open it.</p>
+      </div>
+
+      <div class="surprise-box reveal delay-1" id="surpriseBox" onclick="openSurprise()" role="button" tabindex="0" aria-label="Open the surprise">
+        <div class="gift-bow">🎀</div>
+        <div class="gift-lid"></div>
+        <div class="gift-ribbon-v"></div>
+        <div class="gift-ribbon-h"></div>
+        <div class="gift-base"></div>
+      </div>
+
+      <p class="surprise-hint" id="surpriseHint">✦ Tap the gift to open ✦</p>
+
+      <div class="surprise-message" id="surpriseMessage">
+        <p>You found it. 🎉</p>
+        <p>Here's my little secret: this whole website was built with one thought in mind — you. Every line of code, every animation, every word. It's not much, but it's honest, and it's yours.</p>
+        <p>If this made you smile even a little, then it did exactly what I hoped it would. 💕</p>
+        <p style="margin-top:1.5rem; font-family:'Great Vibes', cursive; font-size:1.8rem; color:#f0d9a0;">— Thank you for being you.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <span class="script">Made with love, just for Divine ❤️</span>
+    <small>Our Little World — a little corner of the internet, yours forever.</small>
+  </footer>
+
+  <!-- ============ SCRIPT ============ -->
+  <script>
+    /* ---------- Navigation ---------- */
+    const nav = document.getElementById('nav');
+    const navToggle = document.getElementById('navToggle');
+    const navLinks = document.getElementById('navLinks');
+
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 60) nav.classList.add('scrolled');
+      else nav.classList.remove('scrolled');
+    });
+
+    navToggle.addEventListener('click', () => {
+      const open = navLinks.classList.toggle('open');
+      navToggle.classList.toggle('active', open);
+      navToggle.setAttribute('aria-expanded', open);
+    });
+
+    function closeNav() {
+      navLinks.classList.remove('open');
+      navToggle.classList.remove('active');
+      navToggle.setAttribute('aria-expanded', 'false');
+    }
+
+    function scrollToSection(id) {
+      document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+      closeNav();
+    }
+
+    /* ---------- Floating hearts ---------- */
+    const heartsContainer = document.getElementById('floatingHearts');
+    const heartChars = ['❤', '♥', '♡', '❥'];
+    const heartClasses = ['', 'gold', 'purple', 'white'];
+
+    function spawnHeart() {
+      const heart = document.createElement('span');
+      heart.className = 'heart ' + heartClasses[Math.floor(Math.random() * heartClasses.length)];
+      heart.textContent = heartChars[Math.floor(Math.random() * heartChars.length)];
+      heart.style.left = Math.random() * 100 + 'vw';
+      heart.style.fontSize = (Math.random() * 1.2 + 0.7) + 'rem';
+      const duration = Math.random() * 8 + 9;
+      heart.style.animationDuration = duration + 's';
+      heartsContainer.appendChild(heart);
+      setTimeout(() => heart.remove(), duration * 1000);
+    }
+
+    // initial burst
+    for (let i = 0; i < 8; i++) {
+      setTimeout(spawnHeart, i * 600);
+    }
+    setInterval(spawnHeart, 1100);
+
+    /* ---------- Sparkles ---------- */
+    function spawnSparkle() {
+      const s = document.createElement('div');
+      s.className = 'sparkle';
+      s.style.left = Math.random() * 100 + 'vw';
+      s.style.top = Math.random() * 100 + 'vh';
+      s.style.animationDuration = (Math.random() * 2 + 2) + 's';
+      document.body.appendChild(s);
+      setTimeout(() => s.remove(), 4000);
+    }
+    setInterval(spawnSparkle, 700);
+
+    /* ---------- Scroll reveal ---------- */
+    const revealEls = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15 });
+
+    revealEls.forEach(el => observer.observe(el));
+
+    /* ---------- Our Time Together — live counter ---------- */
+    // The moment everything started: July 7th, 2026, just after midnight (00:00:01)
+    // Fixed anchor date so the counter grows cumulatively forever and never resets.
+    const specialMoment = new Date(2026, 6, 7, 0, 0, 1); // month is 0-indexed: 6 = July
+
+    function updateCounter() {
+      const now = new Date();
+      let diff = Math.floor((now - specialMoment) / 1000); // total seconds
+
+      // Before the start date, show zeros instead of a negative countdown
+      if (diff < 0) diff = 0;
+
+      const secs = diff % 60; diff = Math.floor(diff / 60);
+      const mins = diff % 60; diff = Math.floor(diff / 60);
+      const hours = diff % 24; diff = Math.floor(diff / 24);
+      const days = diff % 365; diff = Math.floor(diff / 365);
+      const years = diff;
+
+      document.getElementById('t-years').textContent = years;
+      document.getElementById('t-days').textContent = days;
+      document.getElementById('t-hours').textContent = String(hours).padStart(2, '0');
+      document.getElementById('t-mins').textContent = String(mins).padStart(2, '0');
+      document.getElementById('t-secs').textContent = String(secs).padStart(2, '0');
+    }
+
+    updateCounter();
+    setInterval(updateCounter, 1000);
+
+    /* ---------- Surprise ---------- */
+    let surpriseOpened = false;
+    function openSurprise() {
+      if (surpriseOpened) return;
+      surpriseOpened = true;
+      const box = document.getElementById('surpriseBox');
+      const msg = document.getElementById('surpriseMessage');
+      const hint = document.getElementById('surpriseHint');
+      box.classList.add('opened');
+      hint.style.display = 'none';
+      setTimeout(() => msg.classList.add('show'), 600);
+
+      // confetti hearts
+      for (let i = 0; i < 28; i++) {
+        setTimeout(() => {
+          const c = document.createElement('div');
+          c.className = 'confetti-heart';
+          c.textContent = heartChars[Math.floor(Math.random() * heartChars.length)];
+          c.style.left = Math.random() * 100 + 'vw';
+          c.style.top = '-20px';
+          c.style.color = ['#ffb3c6', '#f0d9a0', '#b79ad6', '#ff6b9d'][Math.floor(Math.random() * 4)];
+          c.style.fontSize = (Math.random() * 1 + 1) + 'rem';
+          c.style.animationDuration = (Math.random() * 1.5 + 2) + 's';
+          document.body.appendChild(c);
+          setTimeout(() => c.remove(), 4000);
+        }, i * 80);
+      }
+    }
+
+    document.getElementById('surpriseBox').addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openSurprise(); }
+    });
+  </script>
+</body>
+</html>
