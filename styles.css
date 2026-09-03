@@ -1553,3 +1553,105 @@ section {
   }
   .heart, .sparkle { display: none; }
 }
+
+/* ============================================
+   BACKGROUND MUSIC CONTROL
+   ============================================ */
+
+.music-toggle {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 1000;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  background: linear-gradient(145deg, var(--purple-deep), #3a1f44);
+  color: var(--gold-light);
+  font-size: 1.3rem;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 6px 24px rgba(74, 44, 90, 0.45), 0 0 0 2px rgba(240, 217, 160, 0.25);
+  transition: transform 0.3s ease, box-shadow 0.3s ease, opacity 0.4s ease;
+  opacity: 0;
+  transform: scale(0.6);
+  animation: none;
+}
+
+.music-toggle:not([hidden]) {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.music-toggle:hover {
+  transform: scale(1.1);
+  box-shadow: 0 8px 28px rgba(74, 44, 90, 0.55), 0 0 0 2px rgba(240, 217, 160, 0.4);
+}
+
+.music-toggle:active {
+  transform: scale(0.95);
+}
+
+/* Pulsing glow while music plays (unmuted) */
+.music-toggle.playing {
+  animation: musicPulse 2.2s ease-in-out infinite;
+}
+
+@keyframes musicPulse {
+  0%, 100% { box-shadow: 0 6px 24px rgba(74, 44, 90, 0.45), 0 0 0 2px rgba(240, 217, 160, 0.25); }
+  50%      { box-shadow: 0 6px 24px rgba(74, 44, 90, 0.45), 0 0 0 6px rgba(240, 217, 160, 0.12); }
+}
+
+/* Swap icon visibility */
+.music-icon {
+  position: absolute;
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+.music-off { opacity: 0; transform: scale(0.5); }
+
+.music-toggle.muted .music-on  { opacity: 0; transform: scale(0.5); }
+.music-toggle.muted .music-off { opacity: 1; transform: scale(1); color: var(--pink-glow); }
+.music-toggle.muted { animation: none; background: linear-gradient(145deg, #3a2230, #2a1530); }
+
+/* Paused state (autoplay blocked) — looks like a play prompt */
+.music-toggle.paused .music-on  { opacity: 1; color: var(--gold-light); }
+.music-toggle.paused { animation: musicPulse 2.2s ease-in-out infinite; }
+
+/* Floating hint that music has started */
+.music-hint {
+  position: fixed;
+  top: 78px;
+  right: 20px;
+  z-index: 999;
+  font-family: var(--font-body);
+  font-size: 0.78rem;
+  font-weight: 300;
+  letter-spacing: 0.5px;
+  color: var(--gold-light);
+  background: rgba(42, 21, 48, 0.82);
+  padding: 6px 14px;
+  border-radius: 20px;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.25);
+  opacity: 0;
+  transform: translateY(-8px);
+  pointer-events: none;
+  transition: opacity 0.5s ease, transform 0.5s ease;
+  white-space: nowrap;
+}
+
+.music-hint.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Keep the toggle clear of the nav on mobile */
+@media (max-width: 768px) {
+  .music-toggle { top: 16px; right: 16px; width: 42px; height: 42px; font-size: 1.1rem; }
+  .music-hint { top: 66px; right: 16px; font-size: 0.72rem; }
+}
