@@ -264,6 +264,48 @@ section {
   animation: fadeUp 1.4s ease;
 }
 
+/* ---------- Hero creator credit ---------- */
+.hero-creator {
+  font-family: var(--font-body);
+  font-size: 0.78rem;
+  font-weight: 300;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.7);
+  margin-bottom: 1.4rem;
+  text-shadow: 0 0 20px rgba(255, 179, 198, 0.3);
+}
+
+.hero-creator .creator-name {
+  font-family: var(--font-script);
+  font-size: 1.5rem;
+  font-weight: 400;
+  letter-spacing: 0.5px;
+  text-transform: none;
+  color: var(--gold-light);
+  text-shadow: 0 0 24px rgba(240, 217, 160, 0.5);
+  display: inline-block;
+  vertical-align: -2px;
+  margin: 0 0.2rem;
+}
+
+.hero-creator .creator-aka {
+  font-family: var(--font-display);
+  font-size: 0.78rem;
+  font-style: italic;
+  letter-spacing: 1px;
+  text-transform: none;
+  color: rgba(255, 255, 255, 0.55);
+  display: inline-block;
+  vertical-align: 1px;
+}
+
+@media (max-width: 520px) {
+  .hero-creator { font-size: 0.68rem; letter-spacing: 1.8px; margin-bottom: 1rem; }
+  .hero-creator .creator-name { font-size: 1.25rem; }
+  .hero-creator .creator-aka { font-size: 0.7rem; display: block; margin-top: 0.3rem; }
+}
+
 .hero-greeting {
   font-family: var(--font-script);
   font-size: 1.6rem;
@@ -1202,6 +1244,41 @@ section {
 }
 
 .footer small { font-size: 0.8rem; opacity: 0.6; font-family: var(--font-body); font-style: normal; }
+
+/* ---------- Footer creator credit ---------- */
+.footer-creator {
+  margin-top: 1.2rem;
+  padding-top: 1.2rem;
+  border-top: 1px solid rgba(255, 179, 198, 0.15);
+  font-family: var(--font-body);
+  font-size: 0.82rem;
+  font-weight: 300;
+  letter-spacing: 0.5px;
+  color: rgba(255, 255, 255, 0.65);
+  font-style: normal;
+}
+
+.footer-creator .creator-name {
+  font-family: var(--font-script);
+  font-size: 1.4rem;
+  color: var(--gold-light);
+  text-shadow: 0 0 18px rgba(240, 217, 160, 0.3);
+  margin: 0 0.2rem;
+}
+
+.footer-creator .creator-aka {
+  font-family: var(--font-display);
+  font-style: italic;
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 0.82rem;
+}
+
+@media (max-width: 520px) {
+  .footer-creator { font-size: 0.78rem; }
+  .footer-creator .creator-name { font-size: 1.2rem; display: block; margin-bottom: 0.2rem; }
+  .footer-creator .creator-aka { display: block; }
+}
+
 
 /* ---------- Responsive ---------- */
 @media (max-width: 860px) {
