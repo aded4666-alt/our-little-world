@@ -12,6 +12,21 @@
 </head>
 <body>
 
+  <!-- Background music -->
+  <audio id="bgMusic" loop preload="auto">
+    <source src="audio/purrple-cat-birds-of-a-feather.mp3" type="audio/mpeg" />
+    Your browser does not support the audio element.
+  </audio>
+
+  <!-- Music mute/unmute control -->
+  <button class="music-toggle" id="musicToggle" aria-label="Mute music" title="Mute / unmute music" hidden>
+    <span class="music-icon music-on">♪</span>
+    <span class="music-icon music-off">🔇</span>
+  </button>
+
+  <!-- Music started hint -->
+  <div class="music-hint" id="musicHint">♪ music playing ♡ tap to mute</div>
+
   <!-- Floating hearts background -->
   <div class="floating-hearts" id="floatingHearts" aria-hidden="true"></div>
 
@@ -38,7 +53,7 @@
       <p class="hero-greeting">A little something just for you…</p>
       <h1 class="hero-title">Hey Divine <span class="hero-heart-icon">❤️</span></h1>
       <p class="hero-subtitle">I made this little place on the internet especially for you.</p>
-      <a href="#about" class="hero-btn">
+      <a href="#about" class="hero-btn" id="beginBtn">
         Click to Begin Our Little Story
         <span class="heart-beat">💕</span>
       </a>
@@ -271,6 +286,48 @@
 
   <!-- ============ SCRIPT ============ -->
   <script>
+    /* ---------- Background Music ---------- */
+    const bgMusic = document.getElementById('bgMusic');
+    const musicToggle = document.getElementById('musicToggle');
+    const musicHint = document.getElementById('musicHint');
+    const beginBtn = document.getElementById('beginBtn');
+    let musicStarted = false;
+    let isMuted = false;
+
+    bgMusic.volume = 0.45; // soft, ambient volume
+
+    function startMusic() {
+      if (musicStarted) return;
+      musicStarted = true;
+      bgMusic.play().then(() => {
+        musicToggle.hidden = false;
+        musicToggle.classList.add('playing');
+        musicHint.classList.add('show');
+        setTimeout(() => musicHint.classList.remove('show'), 4500);
+      }).catch(() => {
+        // Autoplay can be blocked; show the toggle so she can start it manually
+        musicToggle.hidden = false;
+        musicToggle.classList.add('paused');
+        musicToggle.setAttribute('aria-label', 'Play music');
+      });
+    }
+
+    // Begin music on clicking "Click to Begin Our Little Story"
+    beginBtn.addEventListener('click', startMusic);
+
+    // Mute / unmute (also handles the case where autoplay was blocked)
+    musicToggle.addEventListener('click', () => {
+      if (!musicStarted) {
+        // First tap acts as "play" if autoplay was blocked
+        startMusic();
+        return;
+      }
+      isMuted = !isMuted;
+      bgMusic.muted = isMuted;
+      musicToggle.classList.toggle('muted', isMuted);
+      musicToggle.setAttribute('aria-label', isMuted ? 'Unmute music' : 'Mute music');
+    });
+
     /* ---------- Navigation ---------- */
     const nav = document.getElementById('nav');
     const navToggle = document.getElementById('navToggle');
