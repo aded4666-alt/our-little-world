@@ -77,8 +77,25 @@
         <div class="about-photo-wrap reveal delay-1">
           <div class="carousel" id="photoCarousel" role="region" aria-label="Photos of Divine" aria-roledescription="carousel">
             <div class="carousel-track" id="carouselTrack">
+              <!-- New photos first -->
               <div class="carousel-slide active" aria-hidden="false">
-                <img src="images/divine-1.jpg" alt="Divine smiling among flowers" class="about-photo" loading="eager" />
+                <img src="images/divine-4.jpg" alt="Divine smiling in a peace sign pose" class="about-photo" loading="eager" />
+              </div>
+              <div class="carousel-slide" aria-hidden="true">
+                <img src="images/divine-5.jpg" alt="Divine with a bright smile in a striped jersey" class="about-photo" loading="lazy" />
+              </div>
+              <div class="carousel-slide" aria-hidden="true">
+                <img src="images/divine-6.jpg" alt="Divine in glasses with a sparkly photo effect" class="about-photo" loading="lazy" />
+              </div>
+              <div class="carousel-slide" aria-hidden="true">
+                <img src="images/divine-7.jpg" alt="Divine in glasses with heart stickers" class="about-photo" loading="lazy" />
+              </div>
+              <div class="carousel-slide" aria-hidden="true">
+                <img src="images/divine-8.jpg" alt="Divine outdoors on a green hillside" class="about-photo" loading="lazy" />
+              </div>
+              <!-- Original photos after -->
+              <div class="carousel-slide" aria-hidden="true">
+                <img src="images/divine-1.jpg" alt="Divine smiling among flowers" class="about-photo" loading="lazy" />
               </div>
               <div class="carousel-slide" aria-hidden="true">
                 <img src="images/divine-2.jpg" alt="Divine" class="about-photo" loading="lazy" />
@@ -101,6 +118,11 @@
               <button class="carousel-dot active" role="tab" aria-label="Photo 1" aria-selected="true" type="button"></button>
               <button class="carousel-dot" role="tab" aria-label="Photo 2" aria-selected="false" type="button"></button>
               <button class="carousel-dot" role="tab" aria-label="Photo 3" aria-selected="false" type="button"></button>
+              <button class="carousel-dot" role="tab" aria-label="Photo 4" aria-selected="false" type="button"></button>
+              <button class="carousel-dot" role="tab" aria-label="Photo 5" aria-selected="false" type="button"></button>
+              <button class="carousel-dot" role="tab" aria-label="Photo 6" aria-selected="false" type="button"></button>
+              <button class="carousel-dot" role="tab" aria-label="Photo 7" aria-selected="false" type="button"></button>
+              <button class="carousel-dot" role="tab" aria-label="Photo 8" aria-selected="false" type="button"></button>
             </div>
           </div>
         </div>
@@ -478,7 +500,7 @@
       const total = slides.length;
       let current = 0;
       let timer = null;
-      const INTERVAL = 5000; // 5 seconds per slide
+      const INTERVAL = 1000; // 1 second per slide
 
       const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
