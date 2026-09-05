@@ -2,7 +2,7 @@
    Caches the site so it works offline, and keeps her installed app
    automatically up to date with the latest version of the site. */
 
-const CACHE_NAME = 'our-little-world-v2';
+const CACHE_NAME = 'our-little-world-v3';
 const CORE_ASSETS = [
   './',
   './index.html',

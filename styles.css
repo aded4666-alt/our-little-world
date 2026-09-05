@@ -1843,3 +1843,214 @@ section {
   .update-accept { padding: 7px 14px; font-size: 0.74rem; }
 }
 
+
+/* ============ A Thought For Today ============ */
+.today-bg {
+  background:
+    radial-gradient(ellipse at 70% 20%, rgba(212, 175, 106, 0.22) 0%, transparent 50%),
+    linear-gradient(170deg, #fff8f3 0%, #fdeee6 55%, #fde4ec 100%);
+}
+
+.thought-card {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 2.6rem 2.4rem 2.2rem;
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.88);
+  border: 1px solid rgba(212, 175, 106, 0.45);
+  box-shadow: var(--shadow-soft), var(--shadow-gold);
+  position: relative;
+}
+
+.thought-date {
+  display: block;
+  font-family: var(--font-body);
+  font-size: 0.72rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--text-soft);
+  margin-bottom: 1.2rem;
+}
+
+.thought-quote-mark {
+  font-family: var(--font-serif);
+  font-size: 3rem;
+  line-height: 0.4;
+  color: var(--gold);
+  display: block;
+  margin-bottom: 1rem;
+}
+
+.thought-text {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 1.45rem;
+  line-height: 1.75;
+  color: var(--text-dark);
+}
+
+.thought-heart {
+  text-align: center;
+  margin-top: 1.5rem;
+  color: var(--red-rich);
+  font-size: 1.05rem;
+}
+
+.thought-hint {
+  text-align: center;
+  margin-top: 0.6rem;
+  color: var(--text-soft);
+  font-family: var(--font-body);
+  font-size: 0.78rem;
+  opacity: 0.85;
+}
+
+@media (max-width: 480px) {
+  .thought-card { padding: 1.8rem 1.4rem 1.6rem; }
+  .thought-text { font-size: 1.2rem; }
+  .thought-quote-mark { font-size: 2.4rem; }
+}
+
+/* ============ Birthday Magic (July 7th) ============ */
+.birthday-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 3000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: linear-gradient(160deg, rgba(42, 21, 48, 0.96), rgba(74, 44, 90, 0.96));
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.8s ease;
+}
+
+.birthday-overlay.show {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.birthday-card {
+  text-align: center;
+  max-width: 480px;
+  transform: scale(0.92);
+  transition: transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.birthday-overlay.show .birthday-card {
+  transform: scale(1);
+}
+
+.birthday-card.wished {
+  animation: wishPulse 1s ease;
+}
+
+@keyframes wishPulse {
+  0%, 100% { transform: scale(1); }
+  40% { transform: scale(1.06); }
+}
+
+.birthday-cake {
+  font-size: 3.6rem;
+  animation: cakeFloat 3s ease-in-out infinite;
+}
+
+@keyframes cakeFloat {
+  0%, 100% { transform: translateY(0) rotate(-4deg); }
+  50% { transform: translateY(-10px) rotate(4deg); }
+}
+
+.birthday-script {
+  font-family: var(--font-script);
+  font-size: 2.8rem;
+  color: var(--gold-light);
+  margin-top: 0.8rem;
+}
+
+.birthday-name {
+  font-family: var(--font-serif);
+  font-size: 2.3rem;
+  color: var(--white);
+  margin: 0.2rem 0 1.1rem;
+  letter-spacing: 0.05em;
+}
+
+.birthday-msg {
+  font-family: var(--font-body);
+  color: rgba(255, 255, 255, 0.85);
+  line-height: 1.85;
+  font-size: 0.95rem;
+  margin-bottom: 2.1rem;
+}
+
+.birthday-btn {
+  border: none;
+  border-radius: 999px;
+  padding: 13px 34px;
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  color: #3a2230;
+  background: linear-gradient(145deg, var(--gold-light), var(--gold));
+  box-shadow: 0 6px 20px rgba(212, 175, 106, 0.4);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.birthday-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 26px rgba(212, 175, 106, 0.55);
+}
+
+.birthday-btn:active {
+  transform: scale(0.96);
+}
+
+.birthday-btn:disabled {
+  opacity: 0.9;
+  cursor: default;
+}
+
+.birthday-hint {
+  margin-top: 1.1rem;
+  color: rgba(255, 179, 198, 0.75);
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+}
+
+@media (max-width: 480px) {
+  .birthday-cake { font-size: 2.8rem; }
+  .birthday-script { font-size: 2.1rem; }
+  .birthday-name { font-size: 1.8rem; }
+  .birthday-msg { font-size: 0.86rem; }
+}
+
+/* ============ Tap-anywhere hearts ============ */
+.tap-heart {
+  position: fixed;
+  pointer-events: none;
+  z-index: 9998;
+  animation: tapFloat 1.4s ease-out forwards;
+  will-change: transform, opacity;
+}
+
+@keyframes tapFloat {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.3) rotate(0deg);
+  }
+  12% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translate(calc(-50% + var(--drift, 0px)), -110px) scale(1.2) rotate(var(--spin, 0deg));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tap-heart { display: none; }
+}
