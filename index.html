@@ -65,6 +65,7 @@
       <li><a href="#home" onclick="closeNav()">Home</a></li>
       <li><a href="#about" onclick="closeNav()">About You</a></li>
       <li><a href="#reasons" onclick="closeNav()">Reasons</a></li>
+      <li><a href="#smile" onclick="closeNav()">Smile Jar</a></li>
       <li><a href="#memories" onclick="closeNav()">Memories</a></li>
       <li><a href="#time" onclick="closeNav()">Our Time</a></li>
       <li><a href="#today" onclick="closeNav()">Thought For Today</a></li>
@@ -218,6 +219,42 @@
           <p>For every reason and for no reason at all — I adore you exactly as you are, completely.</p>
         </div>
       </div>
+    </div>
+  </section>
+
+  <!-- ============ THE SMILE JAR ============ -->
+  <section id="smile" class="smile-bg">
+    <div class="section-inner">
+      <div class="text-center reveal">
+        <span class="section-label">The Smile Jar</span>
+        <h2 class="section-title">A Reason To Smile</h2>
+        <div class="section-divider"></div>
+        <p class="section-intro">I keep a little jar of tiny notes — sweet ones, silly ones, and ones about moments I'll never forget. Tap it whenever you need one. It never runs empty. ♡</p>
+      </div>
+
+      <div class="smile-stage reveal delay-1">
+        <div class="smile-jar" id="smileJar" role="button" tabindex="0" aria-label="Tap to pull a little note from the smile jar">
+          <span class="jar-glow"></span>
+          <div class="jar-lid"></div>
+          <div class="jar-glass">
+            <span class="jar-heart jh-1">♡</span>
+            <span class="jar-heart jh-2">♡</span>
+            <span class="jar-heart jh-3">♡</span>
+            <span class="jar-heart jh-4">♡</span>
+            <span class="jar-heart jh-5">♡</span>
+          </div>
+          <span class="jar-note-mini"></span>
+        </div>
+        <p class="jar-hint" id="jarHint">tap the jar for a little note ♡</p>
+      </div>
+
+      <div class="smile-note" id="smileNote">
+        <span class="smile-note-heart">♡</span>
+        <p class="smile-note-text" id="smileNoteText"></p>
+        <button class="smile-note-btn" id="smileNoteBtn">another one ♡</button>
+      </div>
+
+      <p class="smile-counter" id="smileCounter"></p>
     </div>
   </section>
 
@@ -798,6 +835,196 @@
       setTimeout(() => h.remove(), 1500);
     });
 
+
+    /* ---------- The Smile Jar ---------- */
+    const SMILE_NOTES = [
+      "You said 99.9% like it was nothing. I've been protecting that number like a national treasure ever since.",
+      "'First guy to ever hold your hand.' Six words. One memory. Replayed about a million times since.",
+      "The day you told me I was the first to hold your hand, I held on a little tighter. You probably noticed. I definitely did.",
+      "You kept 0.1% of your trust just to tease me. Keep it forever — it means I'll keep trying forever.",
+      "99.9% has a whole shrine in my head. The remaining 0.1% is under construction. We do not give up here.",
+      "The night I stayed up for midnight on July 7th, I came second. Best second place of my entire life.",
+      "I stayed up past midnight for you once. I'd do it a thousand more times. Sleep and I have negotiated this.",
+      "You laughed when you said 99.9%, like you were keeping something from me. You were keeping my sanity. It worked.",
+      "Somewhere in Ilesa right now is the girl who owns my whole heart. I hope her weather is as good as she is.",
+      "Ilesa doesn't know how lucky it is. It gets to have you while I count down to 200lvl.",
+      "200lvl is just a fancy way of saying 'the part where I get to see you again.' That semester is circled in my heart.",
+      "I'm counting down to 200lvl in the most polite way possible. It's taking everything in me.",
+      "Your hand fit in mine like an answered question. I still think about that.",
+      "One day we'll be old and I'll still be telling people the 99.9% story. Practice your eye-roll now.",
+      "You're the reason my notifications matter.",
+      "Your smile could fix a bad day in under a second. It's fixed most of mine.",
+      "If thinking about you paid money, I'd have bought an island by now. A nice one.",
+      "Some people are sunshine. You're the whole season.",
+      "From your very first hello to right now, you quietly became my favorite habit.",
+      "You're the plot twist my story needed — and the one I'd never rewrite.",
+      "My heart does a roll call every morning. Yours is the only name on the list.",
+      "You could read a grocery list and I'd call it poetry.",
+      "You're the soft part of all my days.",
+      "Even your typing style has charm. Where did you learn that?",
+      "You're proof that quiet people carry the loudest hearts.",
+      "If I had to describe perfect, I'd just type your name and send it.",
+      "You're not on my mind. You've rented the whole place — permanently, no complaints.",
+      "Your existence is my favorite coincidence.",
+      "Everything is better with you in it. Including Tuesdays. Especially Tuesdays.",
+      "You're the reason the future doesn't scare me anymore.",
+      "You're the only person whose 'LOL' I picture as a real laugh — because I've heard it, and it's better.",
+      "Every chat with you is my favorite thread. I reread the good ones like a series.",
+      "You make 'good morning' texts feel like breaking news.",
+      "If the universe takes requests, mine was granted the day you said hello.",
+      "You're not 'a lot.' You're exactly enough — all of it, exactly.",
+      "Your standards and your self-respect are attractive. Keep every last one of them.",
+      "Talking to you is my favorite hobby, sport, and productive waste of time. All three at once.",
+      "You're the quiet good news my day is always waiting for.",
+      "You care about people so quietly they don't even notice. I notice. I always notice.",
+      "Your kindness doesn't announce itself. It just quietly redecorates every room you enter.",
+      "You're smart in a way that makes everyone around you a little smarter.",
+      "You have that rare thing — a beautiful face and an even more beautiful heart. No filters needed, in either sense.",
+      "Your name is Divine. It's the most accurate name I've ever heard.",
+      "Your parents named you perfectly. I'm just the guy who noticed.",
+      "Your mind is my favorite place to visit. The conversations there never really end.",
+      "You're someone's answered prayer. Mine, specifically. I checked.",
+      "You didn't just walk into my life — you moved in, and I never wanted the space back.",
+      "Your smile is my favorite sight in any room, in any city, at any hour.",
+      "If hearts had home addresses, mine moved into yours without asking.",
+      "You're the reason I believe in good timing, even when it's slow.",
+      "Being loved by you would be an honor. Loving you already is.",
+      "You're the kind of person people don't forget. I'm living proof.",
+      "Your heart must be the softest place on earth. Everything about you suggests it.",
+      "You're the best thing that ever happened to my standards. Nobody else will ever clear this bar.",
+      "You're the reason I check my phone like it owes me money.",
+      "Scientists studied my heart once. They found your name and closed the case.",
+      "My brain said 'stop thinking about her.' My heart said no. My brain said fair enough.",
+      "If missing you were a degree, I'd have graduated top of the class by now.",
+      "You're the reason my 'do not disturb' has trust issues.",
+      "I'd share my last suya with you. In this economy, that's a marriage proposal.",
+      "My camera roll is 90% things you'd find funny. The other 10% is screenshots of this website.",
+      "You're the reason I smile at my phone in public like a weirdo. Zero regrets.",
+      "If you were a WiFi signal, you'd be full bars everywhere you go. That's real power.",
+      "You're the reason I actually reply on time now. Character development.",
+      "Teachers warned me daydreaming would ruin my life. Then you happened. Totally worth it.",
+      "You're my favorite distraction. The expensive kind — you cost all my attention.",
+      "I'd fight a bear for you. I'd lose, but I'd fight so hard the bear would feel bad.",
+      "'One more message' has ruined my sleep schedule since I met you. Best trade I ever made.",
+      "You're the reason a whole website exists. Blame yourself.",
+      "There are nine photos of you on this site and about four thousand more in my heart. Rough estimate.",
+      "Every time you tap the screen and hearts float up — that's this little world saying it likes you too.",
+      "This jar never runs empty. Unlike my data. Please manage both wisely.",
+      "I built you a whole world and you still somehow make my real one better. Overachiever.",
+      "Your laugh should come with a warning label: 'may cause permanent attachment.'",
+      "I'd tell you my worst joke just to hear you laugh at how bad it is. Wait — I already do that.",
+      "Your laugh is free to hear and worth more than everything I own.",
+      "Your smile has been scientifically proven* to fix bad days. (*Source: me. Every single day.)",
+      "If smiling were a superpower, you'd be out here saving entire cities and not even noticing.",
+      "You've been in my head so long you should pay rent. Kidding. Stay forever. Rent-free.",
+      "There's a counter on this site that's been ticking since July 7th. It's counting for both of us.",
+      "'Birds of a Feather' will always remind me of this little place — and of you. Both feel like home now.",
+      "There's music playing somewhere on this site just for you. There always was.",
+      "Future plans: hold your hand again. Possibly build you another website. In that order. Maybe.",
+      "When we finally see each other again, I'm going to act calm. This entire site is evidence against me.",
+      "I hope 200lvl has long walkways. I have catching up to do — starting with your hand in mine.",
+      "Every heart floating on this site is yours. The floating ones, the falling ones — all of them.",
+      "This note is one of ninety. I could write ninety more before dinner. Don't test me. Test me.",
+      "You're the reason this little world exists — and my favorite part of the real one.",
+      "One day I'll run out of things to adore about you. It will not be today. It will not be any day.",
+      "The jar has ninety notes and not one of them is an exaggeration. I checked. Twice."
+    ];
+
+    const smileJarEl = document.getElementById('smileJar');
+    const smileNoteEl = document.getElementById('smileNote');
+    const smileNoteTextEl = document.getElementById('smileNoteText');
+    const smileNoteBtnEl = document.getElementById('smileNoteBtn');
+    const jarHintEl = document.getElementById('jarHint');
+    const smileCounterEl = document.getElementById('smileCounter');
+    let smileCount = 0;
+    let smileBag = [];
+    let lastSmileIdx = null;
+    let jarBusy = false;
+
+    function loadSmileState() {
+      try {
+        smileCount = parseInt(localStorage.getItem('olw-smile-count') || '0', 10) || 0;
+        const savedBag = JSON.parse(localStorage.getItem('olw-smile-bag') || 'null');
+        if (Array.isArray(savedBag)) {
+          smileBag = savedBag.filter(function (i) {
+            return Number.isInteger(i) && i >= 0 && i < SMILE_NOTES.length;
+          });
+        }
+      } catch (e) {}
+      updateSmileCounter();
+    }
+
+    function saveSmileState() {
+      try {
+        localStorage.setItem('olw-smile-count', String(smileCount));
+        localStorage.setItem('olw-smile-bag', JSON.stringify(smileBag));
+      } catch (e) {}
+    }
+
+    function updateSmileCounter() {
+      if (smileCount < 3) {
+        smileCounterEl.classList.remove('show');
+        return;
+      }
+      smileCounterEl.classList.add('show');
+      if (smileCount % SMILE_NOTES.length === 0) {
+        smileCounterEl.textContent = 'you\'ve read every note in this jar — all ' + SMILE_NOTES.length + ' of them ♡ and I\'d still write you ninety more.';
+      } else {
+        smileCounterEl.textContent = 'you\'ve made yourself smile ' + smileCount + ' times ♡';
+      }
+    }
+
+    function refillSmileBag() {
+      smileBag = SMILE_NOTES.map(function (_, i) { return i; });
+      for (let i = smileBag.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        const tmp = smileBag[i];
+        smileBag[i] = smileBag[j];
+        smileBag[j] = tmp;
+      }
+      // never the same note twice in a row — even right after a fresh refill
+      if (lastSmileIdx !== null && smileBag.length > 1 && smileBag[smileBag.length - 1] === lastSmileIdx) {
+        const swap = smileBag[0];
+        smileBag[0] = smileBag[smileBag.length - 1];
+        smileBag[smileBag.length - 1] = swap;
+      }
+    }
+
+    function pullSmileNote() {
+      if (smileBag.length === 0) refillSmileBag();
+      lastSmileIdx = smileBag.pop();
+      return lastSmileIdx;
+    }
+
+    function openJarNote() {
+      if (jarBusy) return;
+      jarBusy = true;
+      smileJarEl.classList.remove('wiggle');
+      void smileJarEl.offsetWidth; /* restart the animation */
+      smileJarEl.classList.add('wiggle');
+      smileNoteTextEl.textContent = SMILE_NOTES[pullSmileNote()];
+      smileCount++;
+      saveSmileState();
+      updateSmileCounter();
+      setTimeout(function () {
+        smileNoteEl.classList.remove('show');
+        void smileNoteEl.offsetWidth;
+        smileNoteEl.classList.add('show');
+        jarHintEl.style.display = 'none';
+        jarBusy = false;
+      }, 700);
+    }
+
+    smileJarEl.addEventListener('click', openJarNote);
+    smileJarEl.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        openJarNote();
+      }
+    });
+    smileNoteBtnEl.addEventListener('click', openJarNote);
+
+    loadSmileState();
 
     /* ---------- Surprise ---------- */
     let surpriseOpened = false;
