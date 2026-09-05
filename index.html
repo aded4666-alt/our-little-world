@@ -6,7 +6,13 @@
   <meta name="theme-color" content="#2a1530" />
   <title>Our Little World ❤️ — For Divine</title>
   <meta name="description" content="A little place on the internet made especially for Divine." />
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>❤️</text></svg>" />
+  <link rel="icon" type="image/png" sizes="64x64" href="icons/favicon.png" />
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png" />
+  <link rel="manifest" href="manifest.json" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Our Little World" />
   <link rel="stylesheet" href="styles.css" />
 <script src="https://sites.super.myninja.ai/_assets/ninja-daytona-script.js"></script>
 </head>
@@ -26,6 +32,19 @@
 
   <!-- Music started hint -->
   <div class="music-hint" id="musicHint">♪ music playing ♡ tap to mute</div>
+
+  <!-- Add to Home Screen / Install prompt -->
+  <div class="install-banner" id="installBanner" role="dialog" aria-label="Add Our Little World to your home screen" hidden>
+    <img src="icons/icon-192.png" alt="" class="install-icon" />
+    <div class="install-text">
+      <strong>Keep me close ♡</strong>
+      <span>Add Our Little World to your home screen — it works offline too.</span>
+    </div>
+    <div class="install-actions">
+      <button class="install-accept" id="installAccept" type="button">Add</button>
+      <button class="install-dismiss" id="installDismiss" type="button" aria-label="Dismiss">✕</button>
+    </div>
+  </div>
 
   <!-- Floating hearts background -->
   <div class="floating-hearts" id="floatingHearts" aria-hidden="true"></div>
@@ -650,6 +669,76 @@
     document.getElementById('moreEnvelope').addEventListener('keydown', (e) => {
       if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openMore(); }
     });
+
+    /* ---------- Service Worker (offline support) ---------- */
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js').catch(() => {
+          /* offline support is a bonus; ignore failures */
+        });
+      });
+    }
+
+    /* ---------- Add to Home Screen / Install ---------- */
+    (function () {
+      const banner = document.getElementById('installBanner');
+      const acceptBtn = document.getElementById('installAccept');
+      const dismissBtn = document.getElementById('installDismiss');
+      if (!banner) return;
+
+      let deferredPrompt = null;
+      let dismissedRecently = false;
+      try {
+        dismissedRecently = localStorage.getItem('olw-install-dismissed') &&
+          (Date.now() - parseInt(localStorage.getItem('olw-install-dismissed'), 10)) < 7 * 24 * 60 * 60 * 1000;
+      } catch (e) { /* private browsing */ }
+
+      // Stands alone already (installed)? Never show the banner.
+      const standalone = window.matchMedia('(display-mode: standalone)').matches ||
+        window.navigator.standalone === true;
+
+      function showBanner() {
+        if (standalone || dismissedRecently) return;
+        banner.hidden = false;
+        requestAnimationFrame(() => banner.classList.add('show'));
+      }
+
+      // Chrome/Edge/Samsung: capture the browser install prompt
+      window.addEventListener('beforeinstallprompt', (e) => {
+        e.preventDefault();
+        deferredPrompt = e;
+        setTimeout(showBanner, 4000); // gentle, after she's had a moment
+      });
+
+      acceptBtn.addEventListener('click', async () => {
+        if (deferredPrompt) {
+          deferredPrompt.prompt();
+          await deferredPrompt.userChoice;
+          deferredPrompt = null;
+          hideBanner();
+        } else {
+          // iOS Safari doesn't support the prompt — show instructions instead
+          banner.classList.add('ios-instructions');
+          const text = banner.querySelector('.install-text span');
+          if (text) text.innerHTML = 'On iPhone: tap <strong>Share</strong> → <strong>Add to Home Screen</strong> ♡';
+        }
+      });
+
+      function hideBanner() {
+        banner.classList.remove('show');
+        setTimeout(() => { banner.hidden = true; }, 500);
+      }
+
+      dismissBtn.addEventListener('click', () => {
+        try { localStorage.setItem('olw-install-dismissed', String(Date.now())); } catch (e) {}
+        hideBanner();
+      });
+
+      // If the browser never fires beforeinstallprompt (e.g. iOS), show a soft hint anyway
+      setTimeout(() => {
+        if (!deferredPrompt) showBanner();
+      }, 8000);
+    })();
   </script>
 </body>
 </html>
