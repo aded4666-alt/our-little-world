@@ -46,6 +46,12 @@
     </div>
   </div>
 
+  <!-- Update toast: shown when a new version of the site is ready -->
+  <div class="update-toast" id="updateToast" role="status" aria-live="polite" hidden>
+    <span class="update-text">Something new just arrived ♡</span>
+    <button class="update-accept" id="updateAccept" type="button">See it ✨</button>
+  </div>
+
   <!-- Floating hearts background -->
   <div class="floating-hearts" id="floatingHearts" aria-hidden="true"></div>
 
@@ -670,13 +676,63 @@
       if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openMore(); }
     });
 
-    /* ---------- Service Worker (offline support) ---------- */
+    /* ---------- Service Worker (offline support + auto-update) ---------- */
     if ('serviceWorker' in navigator) {
+      let refreshing = false;
+      let firstController = true;
+
+      /* When a new version activates (after she taps "See it"), reload once */
+      navigator.serviceWorker.addEventListener('controllerchange', () => {
+        if (firstController) { firstController = false; return; }
+        if (refreshing) return;
+        refreshing = true;
+        window.location.reload();
+      });
+
       window.addEventListener('load', () => {
-        navigator.serviceWorker.register('./sw.js').catch(() => {
+        navigator.serviceWorker.register('./sw.js').then((registration) => {
+          /* Case 1: a new version is ALREADY downloaded and waiting */
+          if (registration.waiting) {
+            showUpdateToast(registration);
+          }
+
+          /* Case 2: a new version is discovered while she's browsing */
+          registration.addEventListener('updatefound', () => {
+            const newWorker = registration.installing;
+            if (!newWorker) return;
+            newWorker.addEventListener('statechange', () => {
+              if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                showUpdateToast(registration);
+              }
+            });
+          });
+
+          /* Ask the browser to check for updates every 6 hours while open */
+          setInterval(() => registration.update().catch(() => {}), 6 * 60 * 60 * 1000);
+        }).catch(() => {
           /* offline support is a bonus; ignore failures */
         });
       });
+
+      /* The gentle "Something new just arrived" toast */
+      function showUpdateToast(registration) {
+        const toast = document.getElementById('updateToast');
+        const accept = document.getElementById('updateAccept');
+        if (!toast) return;
+        toast.hidden = false;
+        requestAnimationFrame(() => toast.classList.add('show'));
+        if (accept && !accept.dataset.bound) {
+          accept.dataset.bound = '1';
+          accept.addEventListener('click', () => {
+            const waiting = registration.waiting || registration.installing;
+            if (waiting) {
+              waiting.postMessage('SKIP_WAITING');
+            } else {
+              window.location.reload();
+            }
+          });
+        }
+      }
     }
 
     /* ---------- Add to Home Screen / Install ---------- */
