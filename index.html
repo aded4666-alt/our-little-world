@@ -67,6 +67,7 @@
       <li><a href="#reasons" onclick="closeNav()">Reasons</a></li>
       <li><a href="#memories" onclick="closeNav()">Memories</a></li>
       <li><a href="#time" onclick="closeNav()">Our Time</a></li>
+      <li><a href="#today" onclick="closeNav()">Thought For Today</a></li>
       <li><a href="#letter" onclick="closeNav()">Love Letter</a></li>
       <li><a href="#more" onclick="closeNav()">One More Thing</a></li>
       <li><a href="#surprise" onclick="closeNav()">Surprise</a></li>
@@ -77,9 +78,9 @@
   <section id="home" class="hero-bg">
     <div class="hero-content">
       <p class="hero-creator">Created with love by <span class="creator-name">Pentdragon</span> <span class="creator-aka">— mostly known as Dayo</span></p>
-      <p class="hero-greeting">A little something just for you…</p>
-      <h1 class="hero-title">Hey Divine <span class="hero-heart-icon">❤️</span></h1>
-      <p class="hero-subtitle">I made this little place on the internet especially for you.</p>
+      <p class="hero-greeting" id="heroGreeting">A little something just for you…</p>
+      <h1 class="hero-title" id="heroTitle">Hey Divine <span class="hero-heart-icon">❤️</span></h1>
+      <p class="hero-subtitle" id="heroSubtitle">I made this little place on the internet especially for you.</p>
       <a href="#about" class="hero-btn" id="beginBtn">
         Click to Begin Our Little Story
         <span class="heart-beat">💕</span>
@@ -296,6 +297,26 @@
     </div>
   </section>
 
+  <!-- ============ A THOUGHT FOR TODAY ============ -->
+  <section id="today" class="today-bg">
+    <div class="section-inner">
+      <div class="text-center reveal">
+        <span class="section-label">A Thought For Today</span>
+        <h2 class="section-title">Today, I Want You To Know</h2>
+        <div class="section-divider"></div>
+        <p class="section-intro">A little line that changes with every sunrise &mdash; because you deserve to be thought of every single day.</p>
+      </div>
+
+      <div class="thought-card reveal delay-1">
+        <span class="thought-date" id="thoughtDate"></span>
+        <span class="thought-quote-mark">&ldquo;</span>
+        <p class="thought-text" id="thoughtText"></p>
+        <div class="thought-heart">&#10084;</div>
+        <p class="thought-hint">a new thought arrives with tomorrow&rsquo;s sunrise &#9825;</p>
+      </div>
+    </div>
+  </section>
+
   <!-- ============ LOVE LETTER ============ -->
   <section id="letter" class="letter-bg">
     <div class="section-inner">
@@ -394,6 +415,18 @@
       Created by <span class="creator-name">Pentdragon</span> <span class="creator-aka">— mostly known as Dayo</span>
     </div>
   </footer>
+
+  <!-- ============ BIRTHDAY MAGIC (July 7th) ============ -->
+  <div class="birthday-overlay" id="birthdayOverlay" aria-hidden="true">
+    <div class="birthday-card" id="birthdayCard">
+      <div class="birthday-cake">&#127874;</div>
+      <div class="birthday-script">Happy Birthday</div>
+      <h2 class="birthday-name">Divine</h2>
+      <p class="birthday-msg">Today isn&rsquo;t just another day &mdash; it&rsquo;s the day the world quietly received one of its best gifts. I hope it&rsquo;s soft, golden, and entirely yours.</p>
+      <button class="birthday-btn" id="birthdayWishBtn" type="button">Make a wish &#10024;</button>
+      <p class="birthday-hint">close your eyes first &#9825;</p>
+    </div>
+  </div>
 
   <!-- ============ SCRIPT ============ -->
   <script>
@@ -609,6 +642,162 @@
 
     updateCounter();
     setInterval(updateCounter, 1000);
+
+    /* ---------- A Thought For Today ---------- */
+    const THOUGHTS = [
+      "Every day with you in it is a good day — even the ones we haven't met in yet.",
+      "Somewhere between your first hello and your last goodnight, you became my favorite thought.",
+      "If I had a flower for every time you crossed my mind, I'd be walking through a garden forever.",
+      "Your laugh is still my favorite sound in the whole world.",
+      "You make ordinary days feel like something worth remembering.",
+      "I hope today is soft to you, the way you are soft with the world.",
+      "99.9% was never just a number to me. I'm still quietly earning that 0.1%.",
+      "The stars held a meeting last night. They agreed — you outshine them all.",
+      "If you ever wonder whether you're on my mind… you never left it.",
+      "You don't have to be perfect. You just have to be you. That's always been more than enough.",
+      "Some people search their whole lives for what I found the day I met you.",
+      "Your smile could end wars. It certainly ends my bad days.",
+      "Today's reminder: you are someone's answered prayer. Mine, specifically.",
+      "I'd lose sleep for you a thousand nights over. July 7th proved that.",
+      "The world is a little brighter because you're in it — and you don't even try.",
+      "Whenever you feel small, remember: you're the whole reason this little world exists.",
+      "Your heart is the safest place I've ever known.",
+      "I don't need a special day to celebrate you. But I'll happily take every one I can get.",
+      "If being adorable were a crime, you'd be serving a life sentence.",
+      "You're the calm in my noisy days and the thought I keep coming back to.",
+      "Even on your quietest days, you're still the loudest thing in my heart.",
+      "I hope someone made you smile today. If not — I hope this line did.",
+      "Distance means nothing when someone means everything.",
+      "You have a way of making the whole day feel softer. I hope today returns the favor.",
+      "I still replay the day we held hands. I held on a little tighter after that.",
+      "Being yours is my favorite thing to be.",
+      "If hearts had doors, yours would be the one I'd knock on every day.",
+      "You're not just in my thoughts today. You're the whole headline.",
+      "This site has a song, and it will always be playing for you.",
+      "Some days you just need to hear it: you did well today. Rest now.",
+      "Your name still gives me that quiet, happy feeling. Divine. Fitting, honestly.",
+      "I could listen to you talk for hours — about anything, about nothing.",
+      "You're the plot twist my story needed.",
+      "If I could bottle the way you make me feel, I'd call it 'Divine' and keep it forever.",
+      "Today's forecast: 100% chance of you being thought about.",
+      "You make my heart do that thing. You know the one. It never stops doing it around you.",
+      "Wherever you are right now — I hope today is being gentle with you.",
+      "You're proof that the best things in life aren't things.",
+      "I hope you ate something today. I hope you drank water. I hope you know you're loved.",
+      "Every love story is beautiful, but ours is my favorite.",
+      "You walked into my life and quietly redecorated the whole thing.",
+      "If you're reading this at night — sleep well, sweet Divine. Tomorrow is already thinking of you.",
+      "If you're reading this in the morning — good morning, beautiful. Today loves you already.",
+      "One day I'll run out of ways to adore you. Today is not that day.",
+      "Your kindness is the kind that stays with people. It stayed with me.",
+      "I don't say it enough: thank you for existing exactly as you are.",
+      "You're my favorite notification. Always have been.",
+      "Some people light up a room. You light up entire weeks.",
+      "I still can't believe you're real sometimes.",
+      "Wherever life takes you, a little corner of the internet is always here, always yours.",
+      "You had my curiosity at hello. Then you had my heart.",
+      "The best part of my day is whichever part includes you.",
+      "I hope today gives you back a fraction of the joy you give people.",
+      "You're not a chapter in my story. You're the whole book.",
+      "Keep blooming, Divine. The world needs your kind of beautiful.",
+      "Today, tomorrow, always — I'm quietly in your corner, cheering for you.",
+      "If you ever doubt yourself, come back here. This whole site is proof of what you mean to someone.",
+      "You make me want to be better, just so I deserve being near you.",
+      "There are 86,400 seconds in a day. You've crossed my mind in at least 86,000 of them.",
+      "Keep this little world on your phone. It works without internet — like my feelings for you. No signal required."
+    ];
+
+    const todayNow = new Date();
+    const isBirthdayToday =
+      (todayNow.getMonth() === 6 && todayNow.getDate() === 7) ||
+      new URLSearchParams(window.location.search).get('birthday') === '1';
+
+    const thoughtTextEl = document.getElementById('thoughtText');
+    const thoughtDateEl = document.getElementById('thoughtDate');
+
+    function pickThought() {
+      const start = new Date(todayNow.getFullYear(), 0, 0);
+      const dayOfYear = Math.floor((todayNow - start) / 86400000);
+      return THOUGHTS[dayOfYear % THOUGHTS.length];
+    }
+
+    if (thoughtTextEl) {
+      thoughtDateEl.textContent = todayNow.toLocaleDateString('en-US', {
+        weekday: 'long', month: 'long', day: 'numeric'
+      });
+      thoughtTextEl.textContent = isBirthdayToday
+        ? "It's your birthday, Divine. Every day you exist is a gift to the world — but today, the world finally admits it."
+        : pickThought();
+    }
+
+    /* ---------- Birthday Magic (July 7th) ---------- */
+    const birthdayOverlay = document.getElementById('birthdayOverlay');
+    const heroGreeting = document.getElementById('heroGreeting');
+    const heroTitle = document.getElementById('heroTitle');
+    const heroSubtitle = document.getElementById('heroSubtitle');
+
+    function confettiBurst(count, storm) {
+      for (let i = 0; i < count; i++) {
+        setTimeout(() => {
+          const c = document.createElement('div');
+          c.className = 'confetti-heart';
+          c.textContent = heartChars[Math.floor(Math.random() * heartChars.length)];
+          c.style.left = Math.random() * 100 + 'vw';
+          c.style.top = '-20px';
+          c.style.color = ['#ffb3c6', '#f0d9a0', '#b79ad6', '#ff6b9d'][Math.floor(Math.random() * 4)];
+          c.style.fontSize = (Math.random() * 1.4 + 0.8) + 'rem';
+          c.style.animationDuration = (Math.random() * 2 + 2.5) + 's';
+          document.body.appendChild(c);
+          setTimeout(() => c.remove(), 5200);
+        }, storm ? i * 18 : i * 80);
+      }
+    }
+
+    if (isBirthdayToday) {
+      if (heroGreeting) heroGreeting.textContent = "It's your day, my love…";
+      if (heroTitle) heroTitle.innerHTML = 'Happy Birthday Divine <span class="hero-heart-icon">🎂</span>';
+      if (heroSubtitle) heroSubtitle.textContent = "Today, this little world celebrates the day it got its light.";
+
+      setTimeout(() => confettiBurst(50, false), 900);
+
+      if (birthdayOverlay) {
+        setTimeout(() => {
+          birthdayOverlay.classList.add('show');
+          birthdayOverlay.setAttribute('aria-hidden', 'false');
+        }, 1600);
+
+        const wishBtn = document.getElementById('birthdayWishBtn');
+        if (wishBtn) {
+          wishBtn.addEventListener('click', () => {
+            confettiBurst(150, true);
+            document.getElementById('birthdayCard').classList.add('wished');
+            wishBtn.textContent = "Your wish is safe with me ♡";
+            wishBtn.disabled = true;
+            setTimeout(() => {
+              birthdayOverlay.classList.remove('show');
+              birthdayOverlay.setAttribute('aria-hidden', 'true');
+            }, 2600);
+          }, { once: true });
+        }
+      }
+    }
+
+    /* ---------- Tap-anywhere hearts ---------- */
+    document.addEventListener('click', (e) => {
+      if (document.querySelectorAll('.tap-heart').length > 24) return;
+      const h = document.createElement('span');
+      h.className = 'tap-heart';
+      h.textContent = heartChars[Math.floor(Math.random() * heartChars.length)];
+      h.style.left = e.clientX + 'px';
+      h.style.top = e.clientY + 'px';
+      h.style.color = ['#ff6b9d', '#f0d9a0', '#b79ad6', '#ffb3c6'][Math.floor(Math.random() * 4)];
+      h.style.fontSize = (Math.random() * 0.8 + 1.1) + 'rem';
+      h.style.setProperty('--drift', (Math.random() * 48 - 24) + 'px');
+      h.style.setProperty('--spin', (Math.random() * 40 - 20) + 'deg');
+      document.body.appendChild(h);
+      setTimeout(() => h.remove(), 1500);
+    });
+
 
     /* ---------- Surprise ---------- */
     let surpriseOpened = false;
