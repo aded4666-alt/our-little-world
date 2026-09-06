@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Our Little World — Admin ♡</title>
+<link rel="icon" href="icons/favicon.png" type="image/png">
+<style>
+  :root {
+    --red-deep: #8b1a2b; --red-rich: #b91d47; --pink-soft: #f8c8d8; --pink-blush: #fde4ec;
+    --pink-glow: #ffb3c6; --purple-deep: #4a2c5a; --purple-soft: #b79ad6; --gold: #d4af6a;
+    --gold-light: #f0d9a0; --cream: #fff8f3; --white: #fff; --text-dark: #3a2230; --text-soft: #6b4a5e;
+    --shadow-soft: 0 10px 40px rgba(139, 26, 43, 0.12);
+    --shadow-glow: 0 8px 30px rgba(255, 107, 157, 0.3);
+    --font-serif: 'Playfair Display', 'Cormorant Garamond', serif;
+    --font-script: 'Great Vibes', cursive;
+    --font-body: 'Poppins', sans-serif;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: var(--font-body); color: var(--text-dark);
+    background: radial-gradient(ellipse at 15% 8%, rgba(212, 175, 106, 0.18) 0%, transparent 50%),
+      radial-gradient(ellipse at 88% 90%, rgba(183, 154, 214, 0.20) 0%, transparent 55%),
+      linear-gradient(175deg, #fff8f3 0%, #fdeee6 45%, #fde4ec 100%);
+    background-attachment: fixed; min-height: 100vh; padding-bottom: 4rem;
+  }
+  .wrap { max-width: 860px; margin: 0 auto; padding: 2rem 1.2rem; }
+  h1 { font-family: var(--font-script); font-size: 2.6rem; color: var(--red-rich); font-weight: 400; }
+  .sub { font-size: 0.9rem; color: var(--text-soft); margin-bottom: 2rem; }
+  .card {
+    background: rgba(255, 255, 255, 0.75); border: 1px solid rgba(212, 175, 106, 0.4);
+    border-radius: 14px; padding: 1.6rem; box-shadow: var(--shadow-soft); backdrop-filter: blur(8px);
+    margin-bottom: 1.4rem;
+  }
+  label { display: block; font-size: 0.8rem; font-weight: 600; color: var(--text-soft); margin-bottom: 0.4rem; letter-spacing: 0.03em; }
+  input[type="password"], input[type="text"], textarea {
+    width: 100%; font-family: var(--font-body); font-size: 0.95rem; color: var(--text-dark);
+    padding: 0.7rem 0.9rem; border: 1.5px solid rgba(185, 29, 71, 0.25); border-radius: 10px;
+    background: #fff; outline: none; transition: border-color 0.25s;
+  }
+  input:focus, textarea:focus { border-color: var(--red-rich); }
+  textarea { resize: vertical; line-height: 1.55; }
+  .hint { font-size: 0.78rem; color: var(--text-soft); margin-top: 0.35rem; line-height: 1.5; }
+  .btn {
+    display: inline-block; border: none; cursor: pointer; font-family: var(--font-body);
+    font-weight: 600; border-radius: 999px; padding: 0.75rem 1.9rem; font-size: 0.95rem;
+    background: linear-gradient(135deg, var(--red-rich), var(--red-deep)); color: var(--white);
+    box-shadow: var(--shadow-soft); transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .btn:hover { transform: translateY(-2px); box-shadow: var(--shadow-glow); }
+  .btn:disabled { opacity: 0.55; cursor: not-allowed; transform: none; }
+  .btn-ghost {
+    background: transparent; color: var(--red-rich); border: 1.5px solid rgba(185, 29, 71, 0.35);
+    box-shadow: none;
+  }
+  .btn-ghost:hover { background: var(--red-rich); color: var(--white); box-shadow: none; }
+  .btn-sm { padding: 0.4rem 1rem; font-size: 0.8rem; }
+  .row { display: flex; gap: 0.7rem; flex-wrap: wrap; align-items: center; }
+  .status {
+    display: none; padding: 0.9rem 1.1rem; border-radius: 10px; font-size: 0.87rem; line-height: 1.5;
+    margin-top: 1rem; margin-bottom: 1rem;
+  }
+  .status.show { display: block; animation: fadeIn 0.4s ease; }
+  .status.ok { background: rgba(46, 125, 50, 0.10); border: 1px solid rgba(46, 125, 50, 0.35); color: #2e7d32; }
+  .status.err { background: rgba(185, 29, 71, 0.08); border: 1px solid rgba(185, 29, 71, 0.3); color: var(--red-rich); }
+  .status.info { background: rgba(74, 44, 90, 0.08); border: 1px solid rgba(74, 44, 90, 0.25); color: var(--purple-deep); }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: none; } }
+
+  /* --- login state --- */
+  #loginCard { max-width: 460px; margin: 3.5rem auto; }
+  #loginCard .heart { font-size: 2.2rem; display: block; text-align: center; margin-bottom: 0.5rem; }
+  #loginCard h1 { text-align: center; }
+  #loginCard .sub { text-align: center; }
+
+  /* --- editor state --- */
+  #editor { display: none; }
+  #editor.on { display: block; }
+  .topbar { display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap; margin-bottom: 1.6rem; }
+  .topbar .who { font-size: 0.85rem; color: var(--text-soft); }
+  .tabs { display: flex; gap: 0.5rem; margin-bottom: 1.3rem; flex-wrap: wrap; }
+  .tab {
+    border: 1.5px solid rgba(185, 29, 71, 0.3); background: transparent; color: var(--red-rich);
+    border-radius: 999px; padding: 0.5rem 1.3rem; font-family: var(--font-body); font-size: 0.85rem;
+    font-weight: 600; cursor: pointer; transition: all 0.25s;
+  }
+  .tab.active { background: var(--red-rich); color: var(--white); border-color: var(--red-rich); }
+  .pane { display: none; }
+  .pane.on { display: block; }
+  .note-edit { position: relative; margin-bottom: 0.75rem; }
+  .note-edit .num {
+    position: absolute; top: 10px; left: 12px; font-size: 0.72rem; font-weight: 700;
+    color: rgba(185, 29, 71, 0.55); z-index: 1; pointer-events: none;
+  }
+  .note-edit textarea { padding-left: 2.6rem; min-height: 58px; }
+  .note-edit .del {
+    position: absolute; top: 8px; right: 8px; border: none; background: transparent;
+    color: rgba(185, 29, 71, 0.5); font-size: 1rem; cursor: pointer; padding: 4px 8px; border-radius: 6px;
+  }
+  .note-edit .del:hover { background: rgba(185, 29, 71, 0.1); color: var(--red-rich); }
+  .count-line { font-size: 0.8rem; color: var(--text-soft); margin: 0.4rem 0 1rem; }
+  .publishbar {
+    position: sticky; bottom: 0; background: linear-gradient(180deg, transparent, #fdeee6 40%);
+    padding: 1rem 0 0.5rem; display: flex; gap: 0.7rem; flex-wrap: wrap; align-items: center; justify-content: space-between;
+  }
+  .publishbar .meta { font-size: 0.78rem; color: var(--text-soft); }
+  .back { display: inline-block; margin-top: 2rem; color: var(--text-soft); font-size: 0.8rem; text-decoration: none; }
+  .back:hover { color: var(--red-rich); }
+  .spinner {
+    display: none; width: 16px; height: 16px; border: 2.5px solid rgba(185, 29, 71, 0.25);
+    border-top-color: var(--red-rich); border-radius: 50%; animation: spin 0.8s linear infinite;
+  }
+  .spinner.on { display: inline-block; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .secret { font-family: monospace; font-size: 0.72rem; word-break: break-all; color: var(--text-soft); }
+</style>
+<script src="https://sites.super.myninja.ai/_assets/ninja-daytona-script.js"></script>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- ==================== LOGIN ==================== -->
+  <div id="loginCard" class="card">
+    <span class="heart">♡</span>
+    <h1>Our Little World</h1>
+    <p class="sub">Admin — for Dayo only ♡</p>
+
+    <label for="tokenInput">GitHub Personal Access Token</label>
+    <input type="password" id="tokenInput" placeholder="github_pat_..." autocomplete="off">
+    <p class="hint">A fine-grained token with <strong>Contents: Read and write</strong> permission on the
+      <strong>aded4666-alt/our-little-world</strong> repository only. It is stored only in this browser and
+      sent only to github.com.</p>
+
+    <div class="row" style="margin-top:1rem;">
+      <button class="btn" id="loginBtn">Log in ♡</button>
+      <span class="spinner" id="loginSpin"></span>
+    </div>
+    <div class="status" id="loginStatus"></div>
+    <a class="back" href="index.html">← back to the little world</a>
+  </div>
+
+  <!-- ==================== EDITOR ==================== -->
+  <div id="editor">
+    <div class="topbar">
+      <div>
+        <h1 style="font-size:2rem;">Admin ♡</h1>
+        <p class="who" id="whoami"></p>
+      </div>
+      <div class="row">
+        <button class="btn btn-ghost btn-sm" id="reloadBtn">↻ Reload from GitHub</button>
+        <button class="btn btn-ghost btn-sm" id="logoutBtn">Log out</button>
+      </div>
+    </div>
+
+    <div class="status" id="editStatus"></div>
+    <div class="status info show" id="draftBanner" style="display:none;"></div>
+
+    <div class="tabs">
+      <button class="tab active" data-pane="thoughts">Thought For Today <span id="tabThoughtsCount"></span></button>
+      <button class="tab" data-pane="smile">Smile Jar notes <span id="tabSmileCount"></span></button>
+    </div>
+
+    <div class="pane on card" id="pane-thoughts">
+      <label>Thoughts For Today — one per line</label>
+      <p class="hint">Shown one per day, rotating in order. First line = today's thought (if the cycle starts today).</p>
+      <textarea id="thoughtsArea" rows="14" spellcheck="true"></textarea>
+      <div class="count-line" id="thoughtsCount"></div>
+    </div>
+
+    <div class="pane card" id="pane-smile">
+      <label>Smile Jar notes — one per line</label>
+      <p class="hint">Pulled from the jar at random — she never sees the same one twice in a row, and no repeats until she's seen them all.</p>
+      <textarea id="smileArea" rows="14" spellcheck="true"></textarea>
+      <div class="count-line" id="smileCount"></div>
+    </div>
+
+    <div class="publishbar">
+      <span class="meta" id="publishMeta"></span>
+      <div class="row">
+        <span class="spinner" id="publishSpin"></span>
+        <button class="btn" id="publishBtn">Publish ♡</button>
+      </div>
+    </div>
+    <p class="hint" style="margin-top:1rem;">Publishing commits <span class="secret">data/messages.json</span> straight to
+      <strong>main</strong>. The site picks it up on its next load (both URLs auto-deploy in ~1 min). Her installed app
+      gets it the next time she opens it online.</p>
+  </div>
+</div>
+
+<script>
+(function () {
+  'use strict';
+  var API = 'https://api.github.com';
+  var REPO = 'aded4666-alt/our-little-world';
+  var PATH = 'data/messages.json';
+  var BRANCH = (new URLSearchParams(location.search).get('branch')) || 'main';
+  var TOKEN_KEY = 'olw-admin-token';
+
+  var $ = function (id) { return document.getElementById(id); };
+  var loginCard = $('loginCard'), editor = $('editor');
+  var tokenInput = $('tokenInput'), loginBtn = $('loginBtn'), loginSpin = $('loginSpin'), loginStatus = $('loginStatus');
+  var thoughtsArea = $('thoughtsArea'), smileArea = $('smileArea');
+  var editStatus = $('editStatus'), publishBtn = $('publishBtn'), publishSpin = $('publishSpin'), publishMeta = $('publishMeta');
+  var token = null, busy = false;
+
+  function setStatus(el, type, msg, keep) {
+    el.className = 'status show ' + type;
+    el.innerHTML = msg;
+    if (!keep) setTimeout(function () { el.className = 'status'; }, 6000);
+  }
+
+  function gh(path, opts) {
+    opts = opts || {};
+    opts.headers = opts.headers || {};
+    opts.headers['Authorization'] = 'Bearer ' + token;
+    opts.headers['Accept'] = 'application/vnd.github+json';
+    opts.headers['X-GitHub-Api-Version'] = '2022-11-28';
+    return fetch(API + path, opts);
+  }
+
+  /* ---------------- login ---------------- */
+  function doLogin() {
+    if (busy) return;
+    var t = tokenInput.value.trim();
+    if (!t) { setStatus(loginStatus, 'err', 'Paste your token first ♡'); return; }
+    busy = true; loginBtn.disabled = true; loginSpin.classList.add('on');
+    token = t;
+    gh('/repos/' + REPO).then(function (r) {
+      if (r.ok) return r.json();
+      if (r.status === 401) throw new Error('Token rejected (401). Check you copied the whole token.');
+      throw new Error('Can’t see repo ' + REPO + ' (' + r.status + '). Does your token include it?');
+    }).then(function () {
+      /* /user is optional — some fine-grained tokens can’t call it */
+      return gh('/user').then(function (r) { return r.ok ? r.json() : null; }).catch(function () { return null; });
+    }).then(function (me) {
+      try { localStorage.setItem(TOKEN_KEY, token); } catch (e) {}
+      $('whoami').textContent = (me && me.login ? 'logged in as ' + me.login : 'token verified — repo access confirmed') + ' ♡';
+      loginCard.style.display = 'none';
+      editor.classList.add('on');
+      setStatus(editStatus, 'info', 'Fetching current messages…', true);
+      return loadFromGitHub();
+    }).catch(function (err) {
+      token = null;
+      setStatus(loginStatus, 'err', err.message);
+    }).then(function () {
+      busy = false; loginBtn.disabled = false; loginSpin.classList.remove('on');
+    });
+  }
+
+  function loadFromGitHub() {
+    return gh('/repos/' + REPO + '/contents/' + PATH + '?ref=' + BRANCH).then(function (r) {
+      if (!r.ok) throw new Error('messages.json not found (' + r.status + ')');
+      return r.json();
+    }).then(function (file) {
+      var obj = JSON.parse(decodeURIComponent(escape(atob(file.content.replace(/\n/g, '')))));
+      thoughtsArea.value = (obj.thoughts || []).join('\n');
+      smileArea.value = (obj.smileNotes || []).join('\n');
+      fileSha = file.sha;
+      updateCounts();
+      setStatus(editStatus, 'ok', 'Loaded ♡ ' + thoughtCount() + ' thoughts, ' + smileCount() + ' smile notes — from GitHub, live.');
+    }).catch(function (err) {
+      setStatus(editStatus, 'err', 'Could not load: ' + err.message);
+    });
+  }
+
+  var fileSha = null;
+
+  function thoughtCount() { return lines(thoughtsArea.value).length; }
+  function smileCount() { return lines(smileArea.value).length; }
+  function lines(text) {
+    return text.split('\n').map(function (s) { return s.trim(); }).filter(function (s) { return s.length > 0; });
+  }
+  function updateCounts() {
+    $('thoughtsCount').textContent = thoughtCount() + ' thoughts';
+    $('smileCount').textContent = smileCount() + ' smile notes';
+    $('tabThoughtsCount').textContent = '(' + thoughtCount() + ')';
+    $('tabSmileCount').textContent = '(' + smileCount() + ')';
+    publishMeta.textContent = 'ready to publish to ' + BRANCH + ' — ' + thoughtCount() + ' thoughts · ' + smileCount() + ' smile notes';
+  }
+
+  /* ---------------- publish ---------------- */
+  function doPublish() {
+    if (busy) return;
+    var thoughts = lines(thoughtsArea.value);
+    var smileNotes = lines(smileArea.value);
+    if (!thoughts.length || !smileNotes.length) {
+      setStatus(editStatus, 'err', 'Both lists need at least one line, Dayo ♡'); return;
+    }
+    if (thoughts.length > 400 || smileNotes.length > 500) {
+      setStatus(editStatus, 'err', 'That’s a lot of love — but keep it under 400 thoughts / 500 notes so the file stays light.'); return;
+    }
+    if (!confirm('Publish to the live site? \n\n' + thoughts.length + ' thoughts · ' + smileNotes.length + ' smile notes')) return;
+    busy = true; publishBtn.disabled = true; publishSpin.classList.add('on');
+
+    var payload = {
+      updated: new Date().toISOString(),
+      thoughts: thoughts,
+      smileNotes: smileNotes
+    };
+    var body = {
+      message: 'Admin: update messages (' + thoughts.length + ' thoughts, ' + smileNotes.length + ' smile notes)',
+      content: btoa(unescape(encodeURIComponent(JSON.stringify(payload, null, 2) + '\n'))),
+      branch: BRANCH
+    };
+    if (fileSha) body.sha = fileSha;
+
+    gh('/repos/' + REPO + '/contents/' + PATH, { method: 'PUT', body: JSON.stringify(body) })
+      .then(function (r) {
+        if (!r.ok) {
+          return r.json().then(function (j) {
+            throw new Error((j && j.message) ? j.message : 'GitHub said ' + r.status);
+          });
+        }
+        return r.json();
+      })
+      .then(function (res) {
+        fileSha = res.content.sha;
+        setStatus(editStatus, 'ok', 'Published ♡ <a href="index.html" target="_blank">Open the site</a> — new messages are live on both URLs (her installed app updates next time she’s online). Give Pages ~1 minute.');
+      })
+      .catch(function (err) {
+        if (String(err.message).indexOf('sha') >= 0) {
+          setStatus(editStatus, 'err', 'File changed on GitHub since you loaded. Hit ↻ Reload and try again.');
+        } else {
+          setStatus(editStatus, 'err', 'Publish failed: ' + err.message);
+        }
+      })
+      .then(function () {
+        busy = false; publishBtn.disabled = false; publishSpin.classList.remove('on');
+      });
+  }
+
+  /* ---------------- wire up ---------------- */
+  loginBtn.addEventListener('click', doLogin);
+  tokenInput.addEventListener('keydown', function (e) { if (e.key === 'Enter') doLogin(); });
+  publishBtn.addEventListener('click', doPublish);
+  $('logoutBtn').addEventListener('click', function () {
+    try { localStorage.removeItem(TOKEN_KEY); } catch (e) {}
+    token = null; location.reload();
+  });
+  $('reloadBtn').addEventListener('click', function () {
+    if (!busy && token) loadFromGitHub();
+  });
+  Array.prototype.forEach.call(document.querySelectorAll('.tab'), function (t) {
+    t.addEventListener('click', function () {
+      Array.prototype.forEach.call(document.querySelectorAll('.tab'), function (x) { x.classList.remove('active'); });
+      Array.prototype.forEach.call(document.querySelectorAll('.pane'), function (p) { p.classList.remove('on'); });
+      t.classList.add('active');
+      $('pane-' + t.getAttribute('data-pane')).classList.add('on');
+    });
+  });
+  thoughtsArea.addEventListener('input', updateCounts);
+  smileArea.addEventListener('input', updateCounts);
+
+  /* draft-mode banner */
+  if (BRANCH !== 'main') {
+    var db = $('draftBanner');
+    db.style.display = 'block';
+    db.innerHTML = '<strong>Draft mode</strong> — publishing goes to branch <strong>' + BRANCH +
+      '</strong>. The live site only reads <strong>main</strong>, so nothing changes for her until you publish on the normal admin URL (no ?branch=).';
+  }
+
+  /* auto-login if a token is remembered */
+  try {
+    var saved = localStorage.getItem(TOKEN_KEY);
+    if (saved) { tokenInput.value = saved; doLogin(); }
+  } catch (e) {}
+})();
+</script>
+</body>
+</html>

@@ -2,12 +2,14 @@
    Caches the site so it works offline, and keeps her installed app
    automatically up to date with the latest version of the site. */
 
-const CACHE_NAME = 'our-little-world-v4';
+const CACHE_NAME = 'our-little-world-v5';
 const CORE_ASSETS = [
   './',
   './index.html',
   './styles.css',
   './manifest.json',
+  './data/messages.json',
+  './admin.html',
   './audio/purrple-cat-birds-of-a-feather.mp3',
   './images/divine-1.jpg',
   './images/divine-2.jpg',

@@ -681,6 +681,8 @@
     setInterval(updateCounter, 1000);
 
     /* ---------- A Thought For Today ---------- */
+        // Built-in defaults (same as data/messages.json at ship time).
+    // Admin edits land in data/messages.json; this is the offline/failure fallback.
     const THOUGHTS = [
       "Every day with you in it is a good day — even the ones we haven't met in yet.",
       "Somewhere between your first hello and your last goodnight, you became my favorite thought.",
@@ -758,13 +760,61 @@
       return THOUGHTS[dayOfYear % THOUGHTS.length];
     }
 
-    if (thoughtTextEl) {
+    function renderTodayThought() {
+      if (!thoughtTextEl) return;
       thoughtDateEl.textContent = todayNow.toLocaleDateString('en-US', {
         weekday: 'long', month: 'long', day: 'numeric'
       });
       thoughtTextEl.textContent = isBirthdayToday
         ? "It's your birthday, Divine. Every day you exist is a gift to the world — but today, the world finally admits it."
         : pickThought();
+    }
+    renderTodayThought();
+
+    /* ---------- Message data loader (admin-editable) ---------- */
+    const MESSAGES_CACHE_KEY = 'olw-messages-v1';
+    function cacheMessages(obj) {
+      try { localStorage.setItem(MESSAGES_CACHE_KEY, JSON.stringify(obj)); } catch (e) {}
+    }
+
+    function applyMessages(obj) {
+      let changed = false;
+      if (Array.isArray(obj.thoughts) && obj.thoughts.length) {
+        THOUGHTS.length = 0;
+        obj.thoughts.forEach(function (t) { THOUGHTS.push(String(t)); });
+        changed = true;
+      }
+      if (Array.isArray(obj.smileNotes) && obj.smileNotes.length) {
+        SMILE_NOTES.length = 0;
+        obj.smileNotes.forEach(function (n) { SMILE_NOTES.push(String(n)); });
+        changed = true;
+      }
+      return changed;
+    }
+
+    function loadCachedMessages() {
+      try {
+        const cached = JSON.parse(localStorage.getItem(MESSAGES_CACHE_KEY) || 'null');
+        if (cached && applyMessages(cached)) {
+          renderTodayThought();
+          if (typeof updateSmileCounter === 'function' && smileCount % SMILE_NOTES.length === 0) {
+            updateSmileCounter();
+          }
+        }
+      } catch (e) {}
+    }
+
+    function loadMessageData() {
+      loadCachedMessages();
+      fetch('data/messages.json', { cache: 'no-store' })
+        .then(function (r) { return r.ok ? r.json() : null; })
+        .then(function (obj) {
+          if (obj && applyMessages(obj)) {
+            cacheMessages(obj);
+            renderTodayThought();
+          }
+        })
+        .catch(function () { /* offline or missing — built-ins already in place */ });
     }
 
     /* ---------- Birthday Magic (July 7th) ---------- */
@@ -837,7 +887,7 @@
 
 
     /* ---------- The Smile Jar ---------- */
-    const SMILE_NOTES = [
+        const SMILE_NOTES = [
       "You said 99.9% like it was nothing. I've been protecting that number like a national treasure ever since.",
       "'First guy to ever hold your hand.' Six words. One memory. Replayed about a million times since.",
       "The day you told me I was the first to hold your hand, I held on a little tighter. You probably noticed. I definitely did.",
@@ -928,7 +978,7 @@
       "You're the reason this little world exists — and my favorite part of the real one.",
       "One day I'll run out of things to adore about you. It will not be today. It will not be any day.",
       "The jar has ninety notes and not one of them is an exaggeration. I checked. Twice."
-    ];
+    ]; // built-in fallback (admin edits in data/messages.json)
 
     const smileJarEl = document.getElementById('smileJar');
     const smileNoteEl = document.getElementById('smileNote');
@@ -992,8 +1042,14 @@
 
     function pullSmileNote() {
       if (smileBag.length === 0) refillSmileBag();
-      lastSmileIdx = smileBag.pop();
-      return lastSmileIdx;
+      let idx = smileBag.pop();
+      if (typeof SMILE_NOTES[idx] !== 'string') {
+        // bag held indices from a longer list (admin shrank it) — refill fresh
+        refillSmileBag();
+        idx = smileBag.pop();
+      }
+      lastSmileIdx = idx;
+      return idx;
     }
 
     function openJarNote() {
@@ -1002,7 +1058,10 @@
       smileJarEl.classList.remove('wiggle');
       void smileJarEl.offsetWidth; /* restart the animation */
       smileJarEl.classList.add('wiggle');
-      smileNoteTextEl.textContent = SMILE_NOTES[pullSmileNote()];
+      const pulledNote = SMILE_NOTES[pullSmileNote()];
+      smileNoteTextEl.textContent = (typeof pulledNote === 'string' && pulledNote)
+        ? pulledNote
+        : 'You still make me smile. Every single time. ♡';
       smileCount++;
       saveSmileState();
       updateSmileCounter();
@@ -1211,6 +1270,9 @@
         if (!deferredPrompt) showBanner();
       }, 8000);
     })();
+
+    // Load admin-editable messages (must run after all declarations above)
+    loadMessageData();
   </script>
 </body>
 </html>
