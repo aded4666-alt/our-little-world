@@ -193,7 +193,7 @@
   var API = 'https://api.github.com';
   var REPO = 'aded4666-alt/our-little-world';
   var PATH = 'data/messages.json';
-  var BRANCH = 'main';
+  var BRANCH = (new URLSearchParams(location.search).get('branch')) || 'main';
   var TOKEN_KEY = 'olw-admin-token';
 
   var $ = function (id) { return document.getElementById(id); };
@@ -225,17 +225,16 @@
     if (!t) { setStatus(loginStatus, 'err', 'Paste your token first ♡'); return; }
     busy = true; loginBtn.disabled = true; loginSpin.classList.add('on');
     token = t;
-    gh('/user').then(function (r) {
-      if (!r.ok) throw new Error(r.status === 401 ? 'Token rejected (401). Check it has Contents: Read &amp; write on the repo.' : 'GitHub said ' + r.status);
-      return r.json();
+    gh('/repos/' + REPO).then(function (r) {
+      if (r.ok) return r.json();
+      if (r.status === 401) throw new Error('Token rejected (401). Check you copied the whole token.');
+      throw new Error('Can’t see repo ' + REPO + ' (' + r.status + '). Does your token include it?');
+    }).then(function () {
+      /* /user is optional — some fine-grained tokens can’t call it */
+      return gh('/user').then(function (r) { return r.ok ? r.json() : null; }).catch(function () { return null; });
     }).then(function (me) {
-      return gh('/repos/' + REPO).then(function (r) {
-        if (!r.ok) throw new Error('Can’t see repo ' + REPO + ' (' + r.status + '). Does your token include it?');
-        return me.login;
-      });
-    }).then(function (login) {
       try { localStorage.setItem(TOKEN_KEY, token); } catch (e) {}
-      $('whoami').textContent = 'logged in as ' + login + ' ♡';
+      $('whoami').textContent = (me && me.login ? 'logged in as ' + me.login : 'token verified — repo access confirmed') + ' ♡';
       loginCard.style.display = 'none';
       editor.classList.add('on');
       setStatus(editStatus, 'info', 'Fetching current messages…', true);
